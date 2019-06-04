@@ -30,6 +30,19 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 			<div class="col-md-12 ">
 				<button  type="button" class="btn btn-outline-success float-right" data-toggle="modal" data-target="#myModal">Create Items</button>
 			</div>
+			<div class="col-md-12 ">
+				<form class="form-inline">
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="name">
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="price">
+					<select class="form-control col-md-2" id="parent_category" 
+					name="parent_category">
+				    	<option value="">All category</option>
+					    {foreach from=$parent_category item=pc}
+							<option value="{$pc.name}" myid="{$pc.id}">{$pc.name}</option>
+						{/foreach}
+	  				</select>
+				</form>
+			</div>
 			<div class="col-md-12 mb-3">
 			</div>
 			<div class="col-md-12">
