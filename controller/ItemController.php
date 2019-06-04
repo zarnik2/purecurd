@@ -27,7 +27,6 @@
 		      $response = json_encode($sub_category);
 	          echo $response;
 	          exit();
-
 	    }
 
 	    public function create(){
