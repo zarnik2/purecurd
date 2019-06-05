@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-04 11:35:27
+/* Smarty version 3.1.33, created on 2019-06-05 03:18:04
   from 'C:\xampp\htdocs\POS\view\editItem.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cf63b5f95f556_30387519',
+  'unifunc' => 'content_5cf7184c881784_86057301',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'd10b1a3d487f31e346a52789f1de70ff126f962f' => 
     array (
       0 => 'C:\\xampp\\htdocs\\POS\\view\\editItem.tpl',
-      1 => 1559640870,
+      1 => 1559697178,
       2 => 'file',
     ),
   ),
@@ -20,8 +20,9 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cf63b5f95f556_30387519 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cf7184c881784_86057301 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
+<head>
 <?php echo '<script'; ?>
  type="text/javascript" 
 src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"><?php echo '</script'; ?>
@@ -36,11 +37,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"><?php ec
  src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"><?php echo '</script'; ?>
 >
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<head>
-	<title>Simple POS</title>
-	<?php echo '<script'; ?>
- src =""><?php echo '</script'; ?>
->
+<title>Simple POS</title>
 </head>
 <body>
 	<div class="container border p-3 mt-3">

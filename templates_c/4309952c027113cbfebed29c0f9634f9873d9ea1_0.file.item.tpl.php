@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-04 12:24:00
+/* Smarty version 3.1.33, created on 2019-06-05 04:08:43
   from 'C:\xampp\htdocs\POS\view\item.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cf646c0124eb4_33691889',
+  'unifunc' => 'content_5cf7242bd45d96_03774422',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4309952c027113cbfebed29c0f9634f9873d9ea1' => 
     array (
       0 => 'C:\\xampp\\htdocs\\POS\\view\\item.tpl',
-      1 => 1559643837,
+      1 => 1559700520,
       2 => 'file',
     ),
   ),
@@ -20,27 +20,27 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cf646c0124eb4_33691889 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cf7242bd45d96_03774422 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
-<?php echo '<script'; ?>
+<head>
+	<?php echo '<script'; ?>
  type="text/javascript" 
-src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"><?php echo '</script'; ?>
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"><?php echo '</script'; ?>
 >
-<?php echo '<script'; ?>
+	<?php echo '<script'; ?>
  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"><?php echo '</script'; ?>
 >
-<?php echo '<script'; ?>
+	<?php echo '<script'; ?>
  src="./public/js/item.js"><?php echo '</script'; ?>
 >
-<?php echo '<script'; ?>
+	<?php echo '<script'; ?>
+ src="./public/js/searchFilter.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
  src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"><?php echo '</script'; ?>
 >
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<title>Simple POS</title>
-	<?php echo '<script'; ?>
- src =""><?php echo '</script'; ?>
->
 </head>
 <body>
 	<?php if (isset($_smarty_tpl->tpl_vars['success']->value)) {?>
@@ -65,13 +65,14 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"><?php ec
 			<div class="col-md-12 ">
 				<button  type="button" class="btn btn-outline-success float-right" data-toggle="modal" data-target="#myModal">Create Items</button>
 			</div>
+			<?php if (sizeof($_smarty_tpl->tpl_vars['items']->value) > 0) {?>
 			<div class="col-md-12 ">
 				<form class="form-inline">
-					<input type="text" class="form-control col-md-2 mr-2" placeholder="name">
-					<input type="text" class="form-control col-md-2 mr-2" placeholder="price">
-					<select class="form-control col-md-2" id="parent_category" 
-					name="parent_category">
-				    	<option value="">All category</option>
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="name" id="search_name">
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="price" id="price">
+					<select class="form-control col-md-2 mr-2" id="f_parent_category" 
+					name="f_parent_category">
+				    	<option>All category</option>
 					    <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['parent_category']->value, 'pc');
 if ($_from !== null) {
@@ -86,8 +87,12 @@ foreach ($_from as $_smarty_tpl->tpl_vars['pc']->value) {
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 	  				</select>
+	  				<select class="form-control col-md-2" id="f_sub_category" 
+					name="f_sub_category" style="display:none;">
+	  				</select>
 				</form>
 			</div>
+			<?php }?>
 			<div class="col-md-12 mb-3">
 			</div>
 			<div class="col-md-12">
@@ -106,7 +111,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 							        <th>Action</th>
 							      </tr>
 							    </thead>
-							    <tbody>
+							    <tbody id="itemTableBody">
 							    <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['items']->value, 'item');
 if ($_from !== null) {
@@ -117,9 +122,9 @@ foreach ($_from as $_smarty_tpl->tpl_vars['item']->value) {
 </td>
 							        <td><?php echo $_smarty_tpl->tpl_vars['item']->value['name'];?>
 </td>
-							        <td><?php echo $_smarty_tpl->tpl_vars['item']->value['p_category'];?>
+							        <td class="pc"><?php echo $_smarty_tpl->tpl_vars['item']->value['p_category'];?>
 </td>
-							        <td><?php echo $_smarty_tpl->tpl_vars['item']->value['s_category'];?>
+							        <td class="sc"><?php echo $_smarty_tpl->tpl_vars['item']->value['s_category'];?>
 </td>
 							        <td><?php echo $_smarty_tpl->tpl_vars['item']->value['current_price'];?>
 </td>

@@ -22,8 +22,14 @@ $(document).ready(function(){
 	//         $(this).trigger("enterKey");
 	//     }
 	// });	
+		
 		$('#search_name').on('keyup',function(){
-			filterTable($(this).val(),1);
+			var name = $(this).val();
+			var price = $('#price').val();
+			var p_category = $('#f_parent_category').val(); 
+			var s_category = $('#f_sub_category').val();
+			getItem(p_category,s_category,name);
+			
 		});
 
 		$("#price").on('keyup',function(){
@@ -31,6 +37,9 @@ $(document).ready(function(){
 		})
 		$("#f_parent_category").on('change',function(){
 			var pid = $('#f_parent_category option:selected').attr('myid');
+			var pc = $('#f_parent_category option:selected').val();
+			var sc = null;
+			var n = $('#search_name').val();
 			if(typeof pid !== "undefined"){
 				$("#f_sub_category").show();
 				$.ajax({
@@ -51,16 +60,21 @@ $(document).ready(function(){
 				        alert(errMsg);
 				    }
 	    		});
+	    		getItem(pc,sc,n);
 			}else{
 				$("#f_sub_category").hide();
+				$("#f_sub_category").val('');
+				getItem(pc,sc,n);
 			}
-			 $("#itemTable td.pc:contains('" + $(this).val() + "')").parent().show();
-        	 $("#itemTable td.pc:not(:contains('" + $(this).val() + "'))").parent().hide();
+			 // $("#itemTable td.pc:contains('" + $(this).val() + "')").parent().show();
+    //     	 $("#itemTable td.pc:not(:contains('" + $(this).val() + "'))").parent().hide();
 		});
 
 		$("#f_sub_category").on('change',function(){
-			 $("#itemTable td.sc:contains('" + $(this).val() + "')").parent().show();
-	    	 $("#itemTable td.sc:not(:contains('" + $(this).val() + "'))").parent().hide();
+			 var pc = $('#f_parent_category').val();
+			 var sc = $(this).val();
+			 var n  = $('#search_name').val();
+			 getItem(pc,sc,n);
 		});
 		
 		function filterTable(value,column){
@@ -78,6 +92,46 @@ $(document).ready(function(){
 			      }
 			    }       
 	  		}
+		}
+
+
+
+		function getItem(pc,sc,n){
+			$.ajax({
+				    type: "POST",
+				    url: "./?action=getItem",
+				    // The key needs to match your method's input parameter (case-sensitive).
+				    data: JSON.stringify({p_category:pc,s_category:sc,name:n}),
+				    contentType: "application/x-www-form-urlencoded",
+				    dataType: "json",
+				    success: function(data)
+				    {  
+				    	$('#itemTableBody').html("");
+			    		data.forEach(function(item) {
+		            		$('#itemTableBody').append(`
+								<tr>
+							        <td>`+item['id']+`</td>
+							        <td>`+item['name']+`</td>
+							        <td class="pc">`+item['p_category']+`</td>
+							        <td class="sc">`+item['s_category']+`</td>
+							        <td>`+item['current_price']+`</td>
+							        <td>`+item['cost']+`</td>
+							        <td>
+							        	<button class="btn btn-outline-primary" onclick="window.location.href='./index.php?action=edit&id=`+item['id']+`'">
+							        		Edit
+							        	</button>
+							        	<button class="btn btn-outline-danger delete" item_id="`+item['id']+`">
+							        		Delete
+							        	</button>
+							        </td>
+								</tr>
+							`);
+						});	
+				    },
+				    failure: function(errMsg) {
+				        alert(errMsg);
+				    }
+	    	});
 		}
 		// function filterTable(value,column){
 		// 	 $("#itemTable tr").each(function(index) {

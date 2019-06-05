@@ -25,5 +25,7 @@
 	    case 'edit' : 
 	    	$item->edit();
 	    	break;
+	    case 'getItem':
+	    	$item->getItemByFilter();
 	}
 ?>

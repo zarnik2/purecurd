@@ -37,7 +37,7 @@
 					<input type="text" class="form-control col-md-2 mr-2" placeholder="price" id="price">
 					<select class="form-control col-md-2 mr-2" id="f_parent_category" 
 					name="f_parent_category">
-				    	<option value="">All category</option>
+				    	<option>All category</option>
 					    {foreach from=$parent_category item=pc}
 							<option value="{$pc.name}" myid="{$pc.id}">{$pc.name}</option>
 						{/foreach}
@@ -66,7 +66,7 @@
 							        <th>Action</th>
 							      </tr>
 							    </thead>
-							    <tbody>
+							    <tbody id="itemTableBody">
 							    {foreach from=$items item=item}
 							      <tr>
 							        <td>{$item.id}</td>

@@ -87,6 +87,19 @@
     			echo "<h4 style='color:red'>404 not found!</h4>";
     		}
 	    }
+
+	    public function getItemByFilter(){
+	    	$get = json_decode(file_get_contents("php://input"),true);
+	    	$p_category = $get['p_category'];
+	    	$s_category=$get['s_category'];
+	    	$name = $get['name'];
+	    	$item = new Item();
+	    	$filterd_item = $item->getItemByFilter($p_category,$s_category,$name);
+	    	// $msg = ['msg' => $s_category];
+	    	$response = json_encode($filterd_item);
+	    	// $response = json_encode($msg);
+	    	echo $response;
+	    }
 	}
 
 ?>

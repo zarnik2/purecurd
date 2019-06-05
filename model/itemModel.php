@@ -1,5 +1,6 @@
 <?php
 	require_once("Base/Model.php");
+
 	class Item extends Model{
 
 	    public function __construct() 
@@ -120,26 +121,42 @@
 	    }
 	    public function get_parent_category(){
 	    	$sql = "SELECT * FROM parent_category";
-	        $stmt = $this->db->prepare($sql);
-	        $stmt->execute();
-	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        	return $row;
+	       	$res = $this->runQuery($sql);
+	    	return $res;
 	    }
 
 	     public function get_item(){
 	    	$sql = "SELECT * FROM item";
-	        $stmt = $this->db->prepare($sql);
-	        $stmt->execute();
-	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        	return $row;
+	       	$res = $this->runQuery($sql);
+	    	return $res;
+	    }
+
+	    public function get_item_by_name($n,$parent_category,$sc){
+	    	$n = htmlspecialchars($n);
+	    	if($parent_category=="All category" && $sc==""){
+	    		$sql = "SELECT * FROM item WHERE name LIKE '%$n%'";
+		    	$res = $this->runQuery($sql);
+		    	return $res;
+	    	}else if($parent_category!="All category" && $sc==""){
+	    		$sql = "SELECT * FROM item WHERE name LIKE '%$n%' AND p_category='".$parent_category."'";
+		    	$res = $this->runQuery($sql);
+		    	return $res;
+	    	}else{
+	    		$sql = "SELECT * FROM item WHERE name LIKE '%$n%' AND p_category='".$parent_category."' AND s_category='".$sc."'";
+		    	$res = $this->runQuery($sql);
+		    	return $res;
+	    	}
+	    }
+	    public function get_item_by_p_category($parent_category){
+	    	$sql = "SELECT * FROM item WHERE p_category='".$parent_category."'";
+	    	$res = $this->runQuery($sql);
+	    	return $res;
 	    }
 
 	    public function get_sub_category($id){
 	    	$sql = "SELECT * FROM sub_category WHERE pid='".$id."'";
-	    	$stmt = $this->db->prepare($sql);
-	        $stmt->execute();
-	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        	return $row;
+	    	$res = $this->runQuery($sql);
+	    	return $res;
 	    }
 
 	    public function destroy($id){
@@ -150,11 +167,67 @@
 
 	    public function get_item_by_id($id){
 	    	$sql = "SELECT * FROM item WHERE id='".$id."'";
+	    	$res = $this->runQuery($sql);
+	    	return $res;
+	    }
+
+	    public function get_item_by_cateogries($parent_category,$sub_category){
+			$sql = "SELECT * FROM item WHERE p_category='".$parent_category."' AND s_category='".$sub_category."'";
+	    	$res = $this->runQuery($sql);
+	    	return $res;
+	    }
+	    function runQuery($sql){
 	    	$stmt = $this->db->prepare($sql);
 	        $stmt->execute();
 	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
         	return $row;
 	    }
+	    public function getItemByFilter($pc,$sc,$n){
+	    	$parent_category = htmlspecialchars($pc);
+	    	if((is_null($sc)|| $sc=='' ) && $n==""){ // parent_category only case
+	    		if($parent_category=="All category"){
+		    		$items = $this->get_item();
+		    		return $items; 
+	    		}else{
+		    		$items = $this->get_item_by_p_category($parent_category);
+		    		return $items;
+	    		}
+	    	}else if(!is_null($sc) && $n==""){ //sub_category case
+    			$sub_category = htmlspecialchars($sc);
+    			if($sub_category==""){
+    				$items = $this->get_item_by_p_category($parent_category);
+		    		return $items;
+    			}else{
+    				$items = $this->get_item_by_cateogries($parent_category,$sub_category);
+    				return $items;
+    			}
+    			
+	    	} else if((is_null($sc)|| $sc=='' ) && $n!=""){ // name and cateogry 
+
+	    		if($parent_category=="All category"){
+	    			$items = $this->get_item_by_name($n,$parent_category,$sc);
+		    		// $items = $this->get_item();
+			    	return $items; 
+	    		}else{
+	    			$items = $this->get_item_by_name($n,$parent_category,$sc);
+	    			return $items; 
+	    		}
+	    		
+	    	} else if($parent_category!="All category" && $n!=""){
+	    		if($sc==''){
+	    			$items = $this->get_item_by_name($n,$parent_category,$sc);
+		    		// $items = $this->get_item();
+			    	return $items; 
+	    		}else{
+	    			$items = $this->get_item_by_name($n,$parent_category,$sc);
+		    		// $items = $this->get_item();
+			    	return $items; 
+	    		}
+	    	}
+	    }
+
+	 
+
 
 	}
 ?>
