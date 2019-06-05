@@ -12,12 +12,8 @@
 	        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // エラー時にExceptionをthrowさせる
 			$db->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING); // 空文字をNUｌｌに変換
 	    } catch(PDOException $e) {
-			mlog(__FILE__.":".__LINE__, SALES_LOG_ERROR);
-			mlog($e->getMessage, SALES_LOG_ERROR);
-			$uri  = SALES_URI."/../";
 			$code = $e->getCode();
-			$str = <<<EOD
-		EOD;
+			$str = $code;
 				print $str;
 				die();
 		    }

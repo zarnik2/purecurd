@@ -28,15 +28,6 @@ $(document).ready(function(){
 	}
 	$('#parent_category').on('change',function(){
 		var id = $('option:selected', this).attr('myid');
-		// axios.post("", {
-	 //    id: id
-	 //  	}).then(function (response) {
-		//     console.log(response);
-		//   }).catch(function (error) {
-		//     console.log(error);
-		//   });
-		// });
-
 		$.ajax({
 		    type: "POST",
 		    url: "./?action=showSubCategory",
