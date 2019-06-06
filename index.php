@@ -27,5 +27,13 @@
 	    	break;
 	    case 'getItem':
 	    	$item->getItemByFilter();
+	    case 'startUpGetItem':
+	    	$item->getStartUpItem();
+
+
+	   	case 'getitems':
+			$item->getItems();	
+		default :
+			echo '404';   	
 	}
 ?>

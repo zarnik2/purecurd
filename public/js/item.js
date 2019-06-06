@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+	startUpGetItem();
 	var pid = $('#parent_category option:selected').attr('myid');
 	if(typeof pid !== "undefined"){
 		var sub_category = $("#sub_parent_category").attr('sub_category');
@@ -68,4 +68,41 @@ $(document).ready(function(){
 			});
 		}
 	})
+
+	function startUpGetItem(){
+		$.ajax({
+		    type: "GET",
+		    url: "./?action=getitems",
+		    // The key needs to match your method's input parameter (case-sensitive).
+		    data: {page:"1",limit:"3"},
+		    contentType: "application/x-www-form-urlencoded",
+		    dataType: "json",
+		    success: function(data)
+		    {  
+		    	data.items.forEach(function(item) {
+            		$('#itemTableBody').append(`
+						<tr>
+					        <td>`+item['id']+`</td>
+					        <td>`+item['name']+`</td>
+					        <td class="pc">`+item['p_category']+`</td>
+					        <td class="sc">`+item['s_category']+`</td>
+					        <td>`+item['current_price']+`</td>
+					        <td>`+item['cost']+`</td>
+					        <td>
+					        	<button class="btn btn-outline-primary" onclick="window.location.href='./index.php?action=edit&id=`+item['id']+`'">
+					        		Edit
+					        	</button>
+					        	<button class="btn btn-outline-danger delete" item_id="`+item['id']+`">
+					        		Delete
+					        	</button>
+					        </td>
+						</tr>
+					`);
+				});	
+		    },
+		    failure: function(errMsg) {
+		       console.log(errMsg);
+		    }
+	    });
+	}
 });

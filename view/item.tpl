@@ -7,6 +7,8 @@
 	<script src="./public/js/searchFilter.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<style>
+	</style>
 	<title>Simple POS</title>
 </head>
 <body>
@@ -30,10 +32,10 @@
 			<div class="col-md-12 ">
 				<button  type="button" class="btn btn-outline-success float-right" data-toggle="modal" data-target="#myModal">Create Items</button>
 			</div>
-			{if sizeof($items)>0}
+			{if $count gt 0}
 			<div class="col-md-12 ">
 				<form class="form-inline">
-					<input type="text" class="form-control col-md-2 mr-2" placeholder="name" id="search_name">
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="name" id="search_name" name="search_name">
 					<input type="text" class="form-control col-md-2 mr-2" placeholder="price" id="price">
 					<select class="form-control col-md-2 mr-2" id="f_parent_category" 
 					name="f_parent_category">
@@ -53,7 +55,6 @@
 			<div class="col-md-12">
 				<div id="tb_loader">
 					<div id="td">
-						{if sizeof($items)>0}
 							<table class="table table-hover" id="itemTable">
 							    <thead>
 							      <tr>
@@ -67,34 +68,49 @@
 							      </tr>
 							    </thead>
 							    <tbody id="itemTableBody">
-							    {foreach from=$items item=item}
-							      <tr>
-							        <td>{$item.id}</td>
-							        <td>{$item.name}</td>
-							        <td class="pc">{$item.p_category}</td>
-							        <td class="sc">{$item.s_category}</td>
-							        <td>{$item.current_price}</td>
-							        <td>{$item.cost}</td>
-							        <td>
-							        	<button class="btn btn-outline-primary" onclick="window.location.href='./index.php?action=edit&id={$item.id}'">
-							        		Edit
-							        	</button>
-							        	<button class="btn btn-outline-danger delete" item_id="{$item.id}">
-							        		Delete
-							        	</button>
-							        </td>
-							      </tr>
-							    {/foreach}
 							    </tbody>
 			  				</table>
-		  				{/if}
-		  				{if sizeof($items)==0}
+		  				<!-- {if sizeof($items)==0}
 							<center>
 								<h3 class="text-info" style="font-size:16px;opacity:0.8"> No item recorded yet ...</h3>
 							</center>
-						{/if}
+						{/if} -->
 	  				</div>
   			    </div>   
+			</div>
+			<div class="col-md-12">
+				<!-- <select class="form-control col-md-1 float-right" id="tRow" 
+				name="tRow">
+					<option value="3">3</option>
+					<option value="5">5</option>
+					<option value="10">10</option>
+				</select> -->
+				<nav>
+				  <ul class="pagination">
+				    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+				    {for $index=1 to $buttonCount}
+				    	{if $index eq 1}
+						    <li class="page-item active" p="{$index}">
+						    	<a class="page-link" href="#">{$index}</a>
+						    </li>
+						{else}
+							<li class="page-item" p="{$index}">
+						    	<a class="page-link" href="#">{$index}</a>
+						    </li>
+				    	{/if}
+				    {/for}
+				    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+				  </ul>
+					<ul class="nav navbar-nav float-right" style="margin-top: 25px;">
+						<li>
+							<select style="width: 70px !important;" id="limit">
+								<option value="3">3</option> 
+								<option value="5">5</option> 
+								<option value="10">10</option> 
+							</select>
+						</li>
+					</ul>
+				</nav>
 			</div>
 		</div>
 
@@ -156,7 +172,6 @@
 						  </div>
 					
 		      </div>
-
 		      <!-- Modal footer -->
 		      <div class="modal-footer">
 		        <button type="submit" class="btn btn-success mr-auto">Save</button>

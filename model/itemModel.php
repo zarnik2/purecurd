@@ -112,47 +112,27 @@
 	    	 return $insertQry;
 
 	    }
-
 	    public function updateData($id,$n,$pc,$sc,$cp,$c,$dt,$d_amt,$bar){
 	    	 $sql = "UPDATE item SET name='$n',p_category='$pc',s_category='$sc',current_price=$cp,cost=$c,d_type='$dt',d_amount=$d_amt,barcode=$bar WHERE id=$id";
 	    	 $stmt = $this->db->prepare($sql);
 	    	 $updateQry = $stmt->execute();
 	    	 return $updateQry;
 	    }
+	    public function all(){
+	    	$sql = "SELECT * FROM item";
+	       	$res = $this->runQuery($sql);
+	    	return $res;
+	    }
+	    public function limit_item($limit,$offset){
+	    	$sql = "SELECT * FROM item LIMIT ".$limit." OFFSET ".$offset;
+	       	$res = $this->runQuery($sql);
+	    	return $res;
+	    }
 	    public function get_parent_category(){
 	    	$sql = "SELECT * FROM parent_category";
 	       	$res = $this->runQuery($sql);
 	    	return $res;
 	    }
-
-	     public function get_item(){
-	    	$sql = "SELECT * FROM item";
-	       	$res = $this->runQuery($sql);
-	    	return $res;
-	    }
-
-	    public function get_item_by_name($n,$parent_category,$sc){
-	    	$n = htmlspecialchars($n);
-	    	if($parent_category=="All category" && $sc==""){
-	    		$sql = "SELECT * FROM item WHERE name LIKE '%$n%'";
-		    	$res = $this->runQuery($sql);
-		    	return $res;
-	    	}else if($parent_category!="All category" && $sc==""){
-	    		$sql = "SELECT * FROM item WHERE name LIKE '%$n%' AND p_category='".$parent_category."'";
-		    	$res = $this->runQuery($sql);
-		    	return $res;
-	    	}else{
-	    		$sql = "SELECT * FROM item WHERE name LIKE '%$n%' AND p_category='".$parent_category."' AND s_category='".$sc."'";
-		    	$res = $this->runQuery($sql);
-		    	return $res;
-	    	}
-	    }
-	    public function get_item_by_p_category($parent_category){
-	    	$sql = "SELECT * FROM item WHERE p_category='".$parent_category."'";
-	    	$res = $this->runQuery($sql);
-	    	return $res;
-	    }
-
 	    public function get_sub_category($id){
 	    	$sql = "SELECT * FROM sub_category WHERE pid='".$id."'";
 	    	$res = $this->runQuery($sql);
@@ -171,8 +151,8 @@
 	    	return $res;
 	    }
 
-	    public function get_item_by_cateogries($parent_category,$sub_category){
-			$sql = "SELECT * FROM item WHERE p_category='".$parent_category."' AND s_category='".$sub_category."'";
+	    public function filteredItemBy($parent_category,$sub_category,$name,$cost){  //test
+	    	$sql = "SELECT * FROM item WHERE name LIKE '%$name%' AND current_price LIKE '%$cost%' AND p_category LIKE '%$parent_category%' AND s_category LIKE '%$sub_category%' ";
 	    	$res = $this->runQuery($sql);
 	    	return $res;
 	    }
@@ -182,52 +162,52 @@
 	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
         	return $row;
 	    }
-	    public function getItemByFilter($pc,$sc,$n){
+	    public function getItemByFilter($pc,$sc,$n,$cost){
 	    	$parent_category = htmlspecialchars($pc);
-	    	if((is_null($sc)|| $sc=='' ) && $n==""){ // parent_category only case
-	    		if($parent_category=="All category"){
-		    		$items = $this->get_item();
-		    		return $items; 
-	    		}else{
-		    		$items = $this->get_item_by_p_category($parent_category);
-		    		return $items;
-	    		}
-	    	}else if(!is_null($sc) && $n==""){ //sub_category case
-    			$sub_category = htmlspecialchars($sc);
-    			if($sub_category==""){
-    				$items = $this->get_item_by_p_category($parent_category);
-		    		return $items;
-    			}else{
-    				$items = $this->get_item_by_cateogries($parent_category,$sub_category);
-    				return $items;
-    			}
-    			
-	    	} else if((is_null($sc)|| $sc=='' ) && $n!=""){ // name and cateogry 
+	    	$sub_category = htmlspecialchars($sc);
+	    	$name = htmlspecialchars($n);
+	    	$cost = htmlspecialchars($cost);
 
-	    		if($parent_category=="All category"){
-	    			$items = $this->get_item_by_name($n,$parent_category,$sc);
-		    		// $items = $this->get_item();
-			    	return $items; 
-	    		}else{
-	    			$items = $this->get_item_by_name($n,$parent_category,$sc);
-	    			return $items; 
-	    		}
-	    		
-	    	} else if($parent_category!="All category" && $n!=""){
-	    		if($sc==''){
-	    			$items = $this->get_item_by_name($n,$parent_category,$sc);
-		    		// $items = $this->get_item();
-			    	return $items; 
-	    		}else{
-	    			$items = $this->get_item_by_name($n,$parent_category,$sc);
-		    		// $items = $this->get_item();
-			    	return $items; 
-	    		}
-	    	}
+	    	$items = $this->filteredItemBy($parent_category,$sub_category,$name,$cost);
+	    	return $items;
 	    }
 
-	 
 
+	    public function getItems($get){
+	    	$sql = ' select * from item ';
+	    	$totalSql = 'select count(*) from item';
+	    	$where = "";
+	    	// var_dump($get);
+	    	if(!empty($get['category'])){
+	    		$where .= $this->checkWhere($where). " p_category='".$get['category']."' ";
+	    	}
 
+	    	// sub
+	    	if(!empty($get['sub_category'])){
+	    	    $where .= $this->checkWhere($where). " s_category='".$get['sub_category']."' ";
+	    	}
+	    	// name
+	    	if(!empty($get['name'])){
+	    		 $where .= $this->checkWhere($where). " name LIKE '%".$get['name']."%' ";
+	    	}
+	    	// cost
+	    	if(!empty($get['price'])){
+	    		$where .= $this->checkWhere($where). " current_price LIKE '%".$get['price']."%' ";
+	    	}
+	    	// order by
+
+	    	// limit
+	    	$limitSql = "";
+	    	if(!empty($get['page'])){
+	    		$limit = $get['limit'];
+	    		$offset = ($get['page'] - 1) * $limit;  // 6
+	    		$limitSql = " limit ".$limit." offset ".$offset;
+	    	}
+
+	    	$sql = $sql.$where.$limitSql;
+	    	$totalSql = $totalSql.$where;
+	    	// echo $sql;    // to return 2 query (total , normal)
+	    	return $this->runQuery($sql);
+	    }	    
 	}
 ?>

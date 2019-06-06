@@ -1,45 +1,36 @@
 $(document).ready(function(){
 
-	// $('#search_name').bind("enterKey",function(e){
-	// 	filter = $(this).val().toUpperCase();
-	// 	table = document.getElementById("itemTable");
-	// 	tr = table.getElementsByTagName("tr");
-	// 	for (i = 0; i < tr.length; i++) {
-	// 	    td = tr[i].getElementsByTagName("td")[1];
-	// 	    if (td) {
-	// 	      txtValue = td.textContent || td.innerText;
-	// 	      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-	// 	        tr[i].style.display = "";
-	// 	      } else {
-	// 	        tr[i].style.display = "none";
-	// 	      }
-	// 	    }       
- //  		}
-	// });
-	// $('#search_name').keyup(function(e){
-	//     if(e.keyCode == 13)
-	//     {
-	//         $(this).trigger("enterKey");
-	//     }
-	// });	
-		
 		$('#search_name').on('keyup',function(){
-			var name = $(this).val();
-			var price = $('#price').val();
+			var cost = $('#price').val();
+			var name = $('#search_name').val();
 			var p_category = $('#f_parent_category').val(); 
 			var s_category = $('#f_sub_category').val();
-			getItem(p_category,s_category,name);
+			var p = '1';
+			var p_item = "";
+			var limit = $('#limit').val();
+			getItem(p_category,s_category,name,cost,p,p_item,limit);
 			
 		});
 
 		$("#price").on('keyup',function(){
-			filterTable($(this).val(),4);
+			var cost = $('#price').val();
+			var name = $('#search_name').val();
+			var p_category = $('#f_parent_category').val(); 
+			var s_category = $('#f_sub_category').val();
+			var p ='1';
+			var p_item = "";
+			var limit = $('#limit').val();
+			getItem(p_category,s_category,name,cost,p,p_item,limit);
 		})
 		$("#f_parent_category").on('change',function(){
 			var pid = $('#f_parent_category option:selected').attr('myid');
-			var pc = $('#f_parent_category option:selected').val();
-			var sc = null;
-			var n = $('#search_name').val();
+			var cost = $('#price').val();
+			var name = $('#search_name').val();
+			var p_category = $('#f_parent_category').val(); 
+			var s_category = $('#f_sub_category').val();
+			var p = '1';
+			var p_item = "";
+			var limit = $('#limit').val();
 			if(typeof pid !== "undefined"){
 				$("#f_sub_category").show();
 				$.ajax({
@@ -60,54 +51,70 @@ $(document).ready(function(){
 				        alert(errMsg);
 				    }
 	    		});
-	    		getItem(pc,sc,n);
+	    		getItem(p_category,s_category,name,cost,p,p_item,limit);
 			}else{
 				$("#f_sub_category").hide();
-				$("#f_sub_category").val('');
-				getItem(pc,sc,n);
+				getItem(p_category,s_category,name,cost,p,p_item,limit);
 			}
 			 // $("#itemTable td.pc:contains('" + $(this).val() + "')").parent().show();
     //     	 $("#itemTable td.pc:not(:contains('" + $(this).val() + "'))").parent().hide();
 		});
 
+		$("#limit").on('change',function(){
+			var cost = $('#price').val();
+			var name = $('#search_name').val();
+			var p_category = $('#f_parent_category').val(); 
+			var s_category = $('#f_sub_category').val();
+			var p = '1';
+			var p_item = "";
+			var limit = $(this).val();
+			getItem(p_category,s_category,name,cost,p,p_item,limit);
+			alert(limit);
+		});
+
 		$("#f_sub_category").on('change',function(){
-			 var pc = $('#f_parent_category').val();
-			 var sc = $(this).val();
-			 var n  = $('#search_name').val();
-			 getItem(pc,sc,n);
+			var cost = $('#price').val();
+			var name = $('#search_name').val();
+			var p_category = $('#f_parent_category').val(); 
+			var s_category = $('#f_sub_category').val();
+			var p = '1';
+			var p_item = "";
+			var limit = $('#limit').val();
+			getItem(p_category,s_category,name,cost,p,p_item,limit);
 		});
 		
-		function filterTable(value,column){
-			filter = value.toUpperCase();
-			table = document.getElementById("itemTable");
-			tr = table.getElementsByTagName("tr");
-			for (i = 0; i < tr.length; i++) {
-			    td = tr[i].getElementsByTagName("td")[column];
-			    if (td) {
-			      txtValue = td.textContent || td.innerText;
-			      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-			        tr[i].style.display = "";
-			      } else {
-			        tr[i].style.display = "none";
-			      }
-			    }       
-	  		}
-		}
-
-
-
-		function getItem(pc,sc,n){
+		$('.page-item').click(function(){
+			$('.page-item.active').removeClass('active');
+			$(this).addClass('active');
+			var cost = $('#price').val();
+			var name = $('#search_name').val();
+			var p_category = $('#f_parent_category').val(); 
+			var s_category = $('#f_sub_category').val();
+			var p = $(this).attr('p');
+			var p_item = "set";
+			var limit = $('#limit').val();
+			getItem(p_category,s_category,name,cost,p,p_item,limit);
+		})
+		function getItem(pc,sc,n,cost,p,p_item,limit){
+		    
+		    if(sc==null){
+		    	sc="";
+		    }
+		    if(pc=="All category"){
+		    	pc="";
+		    }
 			$.ajax({
-				    type: "POST",
-				    url: "./?action=getItem",
+				    type: "GET",
+				    url: "./?action=getitems",
 				    // The key needs to match your method's input parameter (case-sensitive).
-				    data: JSON.stringify({p_category:pc,s_category:sc,name:n}),
+				    data: {category:pc,sub_category:sc,name:n,price:cost,page:p,limit:limit},
 				    contentType: "application/x-www-form-urlencoded",
 				    dataType: "json",
 				    success: function(data)
 				    {  
+				    	console.log(data);
 				    	$('#itemTableBody').html("");
-			    		data.forEach(function(item) {
+			    		data.items.forEach(function(item) {
 		            		$('#itemTableBody').append(`
 								<tr>
 							        <td>`+item['id']+`</td>
@@ -127,27 +134,12 @@ $(document).ready(function(){
 								</tr>
 							`);
 						});	
+						if(p_item==""){
+						}		
 				    },
 				    failure: function(errMsg) {
 				        alert(errMsg);
 				    }
 	    	});
 		}
-		// function filterTable(value,column){
-		// 	 $("#itemTable tr").each(function(index) {
-		//         if (index != 0) {
-
-		//             $row = $(this);
-
-		//             var id = $row.find("td:first").text();
-
-		//             if (id.indexOf(value) != 0) {
-		//                 $(this).hide();
-		//             }
-		//             else {
-		//                 $(this).show();
-		//             }
-		//         }
-  //   		});
-		// }
 });
