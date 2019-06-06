@@ -7,11 +7,11 @@
 	} else {
 		$header="index";
 	}
-	
+	$status="";
 
 	switch($header){
 		case "index":
-			$item->index();
+			$item->index($status);
 			break;
 		case "showSubCategory":
 			$item->showSubCategory();

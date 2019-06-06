@@ -123,11 +123,6 @@
 	       	$res = $this->runQuery($sql);
 	    	return $res;
 	    }
-	    public function limit_item($limit,$offset){
-	    	$sql = "SELECT * FROM item LIMIT ".$limit." OFFSET ".$offset;
-	       	$res = $this->runQuery($sql);
-	    	return $res;
-	    }
 	    public function get_parent_category(){
 	    	$sql = "SELECT * FROM parent_category";
 	       	$res = $this->runQuery($sql);
@@ -145,33 +140,13 @@
 	    	$stmt->execute();
 	    }
 
-	    public function get_item_by_id($id){
-	    	$sql = "SELECT * FROM item WHERE id='".$id."'";
-	    	$res = $this->runQuery($sql);
-	    	return $res;
-	    }
 
-	    public function filteredItemBy($parent_category,$sub_category,$name,$cost){  //test
-	    	$sql = "SELECT * FROM item WHERE name LIKE '%$name%' AND current_price LIKE '%$cost%' AND p_category LIKE '%$parent_category%' AND s_category LIKE '%$sub_category%' ";
-	    	$res = $this->runQuery($sql);
-	    	return $res;
-	    }
 	    function runQuery($sql){
 	    	$stmt = $this->db->prepare($sql);
 	        $stmt->execute();
 	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
         	return $row;
 	    }
-	    public function getItemByFilter($pc,$sc,$n,$cost){
-	    	$parent_category = htmlspecialchars($pc);
-	    	$sub_category = htmlspecialchars($sc);
-	    	$name = htmlspecialchars($n);
-	    	$cost = htmlspecialchars($cost);
-
-	    	$items = $this->filteredItemBy($parent_category,$sub_category,$name,$cost);
-	    	return $items;
-	    }
-
 
 	    public function getItems($get){
 	    	$sql = ' select * from item ';
@@ -205,9 +180,13 @@
 	    	}
 
 	    	$sql = $sql.$where.$limitSql;
-	    	$totalSql = $totalSql.$where;
+	    	$countSql = $totalSql.$where;
+
 	    	// echo $sql;    // to return 2 query (total , normal)
-	    	return $this->runQuery($sql);
+	    	$items =  $this->runQuery($sql);
+	    	$countItems = $this->runQuery($countSql);
+	    	$data = ['items' => $items,'countItems' => $countItems];
+	    	return $data;
 	    }	    
 	}
 ?>
