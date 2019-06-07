@@ -70,41 +70,17 @@
 							    <tbody id="itemTableBody">
 							    </tbody>
 			  				</table>
-		  				<!-- {if sizeof($items)==0}
-							<center>
-								<h3 class="text-info" style="font-size:16px;opacity:0.8"> No item recorded yet ...</h3>
-							</center>
-						{/if} -->
 	  				</div>
   			    </div>   
 			</div>
 			<div class="col-md-12">
-				<!-- <select class="form-control col-md-1 float-right" id="tRow" 
-				name="tRow">
-					<option value="3">3</option>
-					<option value="5">5</option>
-					<option value="10">10</option>
-				</select> -->
 				<nav>
-				  <ul class="pagination">
-				    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-				    {for $index=1 to $buttonCount}
-				    	{if $index eq 1}
-						    <li class="page-item active" p="{$index}">
-						    	<a class="page-link" href="#">{$index}</a>
-						    </li>
-						{else}
-							<li class="page-item" p="{$index}">
-						    	<a class="page-link" href="#">{$index}</a>
-						    </li>
-				    	{/if}
-				    {/for}
-				    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+				  <ul class="pagination" id="pageLimit">
 				  </ul>
 					<ul class="nav navbar-nav float-right" style="margin-top: 25px;">
 						<li>
 							<select style="width: 70px !important;" id="limit">
-								<option value="3">3</option> 
+								<option value="2">2</option> 
 								<option value="5">5</option> 
 								<option value="10">10</option> 
 							</select>
