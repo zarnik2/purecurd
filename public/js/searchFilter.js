@@ -161,43 +161,98 @@ $(document).ready(function(){
 			currentPage = parseInt(currentPage);
 
 			var pageCount = Math.ceil(total/limit);
-			console.log(' ------------ page count ------------- '+pageCount+' ---------------');
-			var html ="";
+			var startpage = 1;
+			var endpage = pageCount;
+			// console.log(' ------------ page count ------------- '+pageCount+' ---------------');
 			//debugger;
+
+			if(pageCount == 1){
+				showLink(1,currentPage);
+				return false;
+			}
 			if(pageCount < ((linkBeforeCurrentPage*2)+1)){
+				previous(startpage,currentPage);
 			    for(i=1; i<=pageCount; i++){
-			        html += ` <li class="page-item" p="`+i+`"><a class="page-link" href="#">`+i+`</a></li>`;
+			        showLink(i,currentPage);
 			    }
-			    $('#pageLimit').html(html);
+			    next(endpage,currentPage);
 			    return false;
+			    alert('c1');
 			}
 
 			// first
 
 			// previous
 			if(currentPage > linkBeforeCurrentPage && ((pageCount - currentPage) >= linkBeforeCurrentPage)){
+				previous(startpage,currentPage);
 			    for(i = (currentPage-linkBeforeCurrentPage); i <= (currentPage + linkBeforeCurrentPage); i++){
-			        html += ` <li class="page-item" p="`+i+`"><a class="page-link" href="#">`+i+`</a></li>`;
+			        showLink(i,currentPage);
 			    }
-			    $('#pageLimit').html(html);
+			    if((pageCount-currentPage)>linkBeforeCurrentPage){
+			    	last(endpage);
+			    }
+			    next(endpage,currentPage);
+			    alert('c2');
 			}else{
 			    if(currentPage <= linkBeforeCurrentPage){
+			    	previous(startpage,currentPage);
 			        for(i = 1; i <= ((linkBeforeCurrentPage*2)+1); i++){
-			            html += ` <li class="page-item" p="`+i+`"><a class="page-link" href="#">`+i+`</a></li>`;
-			        }  
-			      $('#pageLimit').html(html);  
+			            showLink(i,currentPage);
+			        }   
+			        last(endpage); 
+			        next(endpage,currentPage);
+			        alert('c3');
 			    }
 			    if((pageCount - currentPage) <= linkBeforeCurrentPage){
+			    	previous(startpage,currentPage);
 			        for(i = (pageCount - (linkBeforeCurrentPage*2)); i <= pageCount; i++){
-			            html += ` <li class="page-item" p="`+i+`"><a class="page-link" href="#">`+i+`</a></li>`;
+			            showLink(i,currentPage);
 			        }
-			      $('#pageLimit').html(html);
+			        next(endpage,currentPage);
+			        alert('c4');
 			    }
 			}
 			return false;
 			// next
 
 			// last
+		}
+
+		function showLink(i,page){
+		   	var html ="";
+			if(i==page){
+				html += ` <li class="page-item active" p="`+i+`"><a class="page-link" href="#">`+i+`</a></li>`;
+			} else {
+				html += ` <li class="page-item" p="`+i+`"><a class="page-link" href="#">`+i+`</a></li>`;
+			}
+			$('#pageLimit').append(html);
+		}
+		function previous(startpage,currentPage){
+			var html = "";
+			if(startpage == currentPage){
+				html += `<li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>`;
+			}else{
+				var previousPage = currentPage-1;
+				html += `<li class="page-item" p="`+previousPage+`"><a class="page-link" href="#">&laquo;</a></li>`;
+			}
+			$('#pageLimit').append(html);
+		}
+		function next(endpage,currentPage){
+			var html = "";
+			if(endpage == currentPage){
+				html += `<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>`;
+			}else{
+			    var nextPage =  +currentPage + 1;
+				html += `<li class="page-item" p="`+nextPage+`"><a class="page-link" href="#">&raquo;</a></li>`;
+			}
+			
+			$('#pageLimit').append(html);
+		}
+
+		function last(endpage){
+			var html = "";
+			html += `<li class="page-item" p="`+endpage+`"><a class="page-link" href="#">Last</a></li>`;
+			$('#pageLimit').append(html);
 		}
 			
 });

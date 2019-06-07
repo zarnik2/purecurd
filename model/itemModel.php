@@ -123,6 +123,11 @@
 	       	$res = $this->runQuery($sql);
 	    	return $res;
 	    }
+	    public function get_item_by_id($id){
+	    	$sql = "SELECT * FROM item WHERE id='".$id."'";
+	    	$res = $this->runQuery($sql);
+	    	return $res;
+	    }
 	    public function get_parent_category(){
 	    	$sql = "SELECT * FROM parent_category";
 	       	$res = $this->runQuery($sql);
