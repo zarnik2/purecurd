@@ -75,12 +75,13 @@
 			</div>
 			<div class="col-md-12">
 				<nav>
-				  <ul class="pagination" id="pageLimit">
+				  <ul class="pagination justify-content-center" id="pageLimit" style="margin:20px 0">
 				  </ul>
 					<ul class="nav navbar-nav float-right" style="margin-top: 25px;">
 						<li>
 							<select style="width: 70px !important;" id="limit">
-								<option value="2">2</option> 
+								<option value="2">2</option>
+								<option value="3">3</option>  
 								<option value="5">5</option> 
 								<option value="10">10</option> 
 							</select>

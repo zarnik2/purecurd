@@ -1,5 +1,6 @@
 $(document).ready(function(){
 		getItem('1');
+
 		$('#search_name').on('keyup',function(){
 			getItem('1');
 		});
@@ -104,7 +105,7 @@ $(document).ready(function(){
 					var pageCount = Math.ceil(total/limit);
 					var startpage = 1;
 					var endpage = pageCount;
-					var linkBeforeCurrentPage = 3;
+					var linkBeforeCurrentPage = 4;
 					var html="";
 
 					$('#pageLimit').html("");
@@ -164,16 +165,16 @@ $(document).ready(function(){
 			var startpage = 1;
 			var endpage = pageCount;
 			// console.log(' ------------ page count ------------- '+pageCount+' ---------------');
-			//debugger;
+			// debugger;
 
 			if(pageCount == 1){
-				showLink(1,currentPage);
+				showLink(1,currentPage,1);
 				return false;
 			}
 			if(pageCount < ((linkBeforeCurrentPage*2)+1)){
 				previous(startpage,currentPage);
 			    for(i=1; i<=pageCount; i++){
-			        showLink(i,currentPage);
+			        showLink(i,currentPage,i);
 			    }
 			    next(endpage,currentPage);
 			    return false;
@@ -185,28 +186,52 @@ $(document).ready(function(){
 			// previous
 			if(currentPage > linkBeforeCurrentPage && ((pageCount - currentPage) >= linkBeforeCurrentPage)){
 				previous(startpage,currentPage);
+
+				if((currentPage - linkBeforeCurrentPage) == 2){ 
+				showLink(startpage,currentPage,'1');
+				}
+				if((currentPage - linkBeforeCurrentPage) > 1 && (currentPage - linkBeforeCurrentPage) != 2  ){
+				showLink(startpage,currentPage,'First');
+				}
+
 			    for(i = (currentPage-linkBeforeCurrentPage); i <= (currentPage + linkBeforeCurrentPage); i++){
-			        showLink(i,currentPage);
+			        showLink(i,currentPage,i);
 			    }
-			    if((pageCount-currentPage)>linkBeforeCurrentPage){
-			    	last(endpage);
+
+			    if((pageCount-currentPage)==(linkBeforeCurrentPage+1)){
+			    	showLink(endpage,currentPage,endpage);
 			    }
+			    if(((pageCount-currentPage)>linkBeforeCurrentPage )&& ((pageCount-currentPage)!=(linkBeforeCurrentPage+1)) ){
+			    	showLink(endpage,currentPage,'Last');
+			    }
+
 			    next(endpage,currentPage);
 			    alert('c2');
 			}else{
 			    if(currentPage <= linkBeforeCurrentPage){
 			    	previous(startpage,currentPage);
 			        for(i = 1; i <= ((linkBeforeCurrentPage*2)+1); i++){
-			            showLink(i,currentPage);
+			            showLink(i,currentPage,i);
 			        }   
-			        last(endpage); 
+			        if(((2*linkBeforeCurrentPage)+1) != pageCount && ( pageCount - ((2*linkBeforeCurrentPage)+1)) !=1  ){
+			        	showLink(endpage,currentPage,'Last'); 
+			        }  
+			        if(( pageCount - ((2*linkBeforeCurrentPage)+1)) ==1){
+			        	showLink(endpage,currentPage,endpage); 
+			        }
 			        next(endpage,currentPage);
-			        alert('c3');
+			       alert('c3');
 			    }
 			    if((pageCount - currentPage) <= linkBeforeCurrentPage){
 			    	previous(startpage,currentPage);
+			    	if(((2*linkBeforeCurrentPage)+1) != pageCount && ( pageCount - ((2*linkBeforeCurrentPage)+1)) !=1){
+			    	showLink(startpage,currentPage,'First');
+			    	}
+			    	 if(( pageCount - ((2*linkBeforeCurrentPage)+1)) ==1){
+			        	showLink(startpage,currentPage,'1'); 
+			        }
 			        for(i = (pageCount - (linkBeforeCurrentPage*2)); i <= pageCount; i++){
-			            showLink(i,currentPage);
+			            showLink(i,currentPage,i);
 			        }
 			        next(endpage,currentPage);
 			        alert('c4');
@@ -218,12 +243,12 @@ $(document).ready(function(){
 			// last
 		}
 
-		function showLink(i,page){
+		function showLink(i,currentPage,text){
 		   	var html ="";
-			if(i==page){
-				html += ` <li class="page-item active" p="`+i+`"><a class="page-link" href="#">`+i+`</a></li>`;
+			if(i==currentPage){
+				html += ` <li class="page-item active" p="`+i+`"><a class="page-link" href="#">`+text+`</a></li>`;
 			} else {
-				html += ` <li class="page-item" p="`+i+`"><a class="page-link" href="#">`+i+`</a></li>`;
+				html += ` <li class="page-item" p="`+i+`"><a class="page-link" href="#">`+text+`</a></li>`;
 			}
 			$('#pageLimit').append(html);
 		}
@@ -248,11 +273,4 @@ $(document).ready(function(){
 			
 			$('#pageLimit').append(html);
 		}
-
-		function last(endpage){
-			var html = "";
-			html += `<li class="page-item" p="`+endpage+`"><a class="page-link" href="#">Last</a></li>`;
-			$('#pageLimit').append(html);
-		}
-			
 });

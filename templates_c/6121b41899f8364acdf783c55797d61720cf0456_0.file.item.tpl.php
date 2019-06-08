@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-06 17:35:23
+/* Smarty version 3.1.33, created on 2019-06-08 19:47:21
   from 'C:\xampp\htdocs\pureCRUD\view\item.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cf932bb520d94_25793512',
+  'unifunc' => 'content_5cfbf4a9e699b1_30670615',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '6121b41899f8364acdf783c55797d61720cf0456' => 
     array (
       0 => 'C:\\xampp\\htdocs\\pureCRUD\\view\\item.tpl',
-      1 => 1559833821,
+      1 => 1560016039,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cf932bb520d94_25793512 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cfbf4a9e699b1_30670615 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <head>
 	<?php echo '<script'; ?>
@@ -115,51 +115,18 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 							    <tbody id="itemTableBody">
 							    </tbody>
 			  				</table>
-		  				<!-- <?php if (sizeof($_smarty_tpl->tpl_vars['items']->value) == 0) {?>
-							<center>
-								<h3 class="text-info" style="font-size:16px;opacity:0.8"> No item recorded yet ...</h3>
-							</center>
-						<?php }?> -->
 	  				</div>
   			    </div>   
 			</div>
 			<div class="col-md-12">
-				<!-- <select class="form-control col-md-1 float-right" id="tRow" 
-				name="tRow">
-					<option value="3">3</option>
-					<option value="5">5</option>
-					<option value="10">10</option>
-				</select> -->
 				<nav>
-				  <ul class="pagination">
-				    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-				    <?php
-$_smarty_tpl->tpl_vars['index'] = new Smarty_Variable(null, $_smarty_tpl->isRenderingCache);$_smarty_tpl->tpl_vars['index']->step = 1;$_smarty_tpl->tpl_vars['index']->total = (int) ceil(($_smarty_tpl->tpl_vars['index']->step > 0 ? $_smarty_tpl->tpl_vars['buttonCount']->value+1 - (1) : 1-($_smarty_tpl->tpl_vars['buttonCount']->value)+1)/abs($_smarty_tpl->tpl_vars['index']->step));
-if ($_smarty_tpl->tpl_vars['index']->total > 0) {
-for ($_smarty_tpl->tpl_vars['index']->value = 1, $_smarty_tpl->tpl_vars['index']->iteration = 1;$_smarty_tpl->tpl_vars['index']->iteration <= $_smarty_tpl->tpl_vars['index']->total;$_smarty_tpl->tpl_vars['index']->value += $_smarty_tpl->tpl_vars['index']->step, $_smarty_tpl->tpl_vars['index']->iteration++) {
-$_smarty_tpl->tpl_vars['index']->first = $_smarty_tpl->tpl_vars['index']->iteration === 1;$_smarty_tpl->tpl_vars['index']->last = $_smarty_tpl->tpl_vars['index']->iteration === $_smarty_tpl->tpl_vars['index']->total;?>
-				    	<?php if ($_smarty_tpl->tpl_vars['index']->value == 1) {?>
-						    <li class="page-item active" p="<?php echo $_smarty_tpl->tpl_vars['index']->value;?>
-">
-						    	<a class="page-link" href="#"><?php echo $_smarty_tpl->tpl_vars['index']->value;?>
-</a>
-						    </li>
-						<?php } else { ?>
-							<li class="page-item" p="<?php echo $_smarty_tpl->tpl_vars['index']->value;?>
-">
-						    	<a class="page-link" href="#"><?php echo $_smarty_tpl->tpl_vars['index']->value;?>
-</a>
-						    </li>
-				    	<?php }?>
-				    <?php }
-}
-?>
-				    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+				  <ul class="pagination justify-content-center" id="pageLimit" style="margin:20px 0">
 				  </ul>
 					<ul class="nav navbar-nav float-right" style="margin-top: 25px;">
 						<li>
 							<select style="width: 70px !important;" id="limit">
-								<option value="3">3</option> 
+								<option value="2">2</option>
+								<option value="3">3</option>  
 								<option value="5">5</option> 
 								<option value="10">10</option> 
 							</select>
