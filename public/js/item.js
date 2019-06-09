@@ -1,50 +1,18 @@
 $(document).ready(function(){
-	var pid = $('#parent_category option:selected').attr('myid');
-	if(typeof pid !== "undefined"){
-		var sub_category = $("#sub_parent_category").attr('sub_category');
-		$.ajax({
-		    type: "POST",
-		    url: "./?action=showSubCategory",
-		    // The key needs to match your method's input parameter (case-sensitive).
-		    data: JSON.stringify({id : pid}),
-		    contentType: "application/x-www-form-urlencoded",
-		    dataType: "json",
-		    success: function(data)
-		    {  
-		    	$('#sub_parent_category').html('<option value="">Plesase select sub category</option>');
-		    	data.forEach(function(item) {
-		    		if(item['name'] == sub_category){
-		    			$('#sub_parent_category').append("<option value='"+item['name']+"' selected>"+item['name']+"</option>");
-		    		}else{
-		    			$('#sub_parent_category').append("<option value='"+item['name']+"'>"+item['name']+"</option>");
-		    		}
-				});
-		    },
-		    failure: function(errMsg) {
-		        alert(errMsg);
-		    }
-	    });
+	var pid = $('#parent_category').val();
+	if( pid != "All category"){
+		showSubCategories(pid);
 	}
 	$('#parent_category').on('change',function(){
-		var id = $('option:selected', this).attr('myid');
-		$.ajax({
-		    type: "POST",
-		    url: "./?action=showSubCategory",
-		    // The key needs to match your method's input parameter (case-sensitive).
-		    data: JSON.stringify({id : id}),
-		    contentType: "application/x-www-form-urlencoded",
-		    dataType: "json",
-		    success: function(data)
-		    {  
-		    	$('#sub_parent_category').html('<option value="">Plesase select sub category</option>');
-		    	data.forEach(function(item) {
-    	            $('#sub_parent_category').append("<option value='"+item['name']+"'>"+item['name']+"</option>");
-				});
-		    },
-		    failure: function(errMsg) {
-		        alert(errMsg);
-		    }
-	    });
+		// var id = $('option:selected', this).attr('myid');
+		var id = $(this).val();
+		if(id != "All category"){
+			showSubCategories(id);
+		}else{
+			$('#sub_parent_category').html('');
+			$('#sub_parent_category').val('');
+		}
+		
 	});
 
 	$('#tb_loader').delegate('.delete','click',function(){
@@ -67,4 +35,30 @@ $(document).ready(function(){
 			});
 		}
 	});
+
+	function showSubCategories(pid){
+		var sid = $("#sub_parent_category").attr('sub_category');
+		$.ajax({
+		    type: "GET",
+		    url: "./?action=getcategories",
+		    // The key needs to match your method's input parameter (case-sensitive).
+		    data: {parentid : pid},
+		    contentType: "application/x-www-form-urlencoded",
+		    dataType: "json",
+		    success: function(data)
+		    {  
+		    	$('#sub_parent_category').html('<option value="">Plesase select sub category</option>');
+		    	data.forEach(function(sub_category) {
+		    		if(sub_category['id'] == sid){
+		    			$('#sub_parent_category').append("<option value='"+sub_category['id']+"' selected>"+sub_category['name']+"</option>");
+		    		}else{
+		    			$('#sub_parent_category').append("<option value='"+sub_category['id']+"'>"+sub_category['name']+"</option>");
+		    		}
+				});
+		    },
+		    failure: function(errMsg) {
+		        alert(errMsg);
+		    }
+	    });
+	}
 });

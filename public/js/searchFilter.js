@@ -9,22 +9,24 @@ $(document).ready(function(){
 			getItem('1');
 		})
 		$("#f_parent_category").on('change',function(){
-			var pid = $('#f_parent_category option:selected').attr('myid');
-			if(typeof pid !== "undefined"){
+			// var pid = $('#f_parent_category option:selected').attr('myid');
+			var id = $('#f_parent_category').val();
+			if(id != "All category"){
 				$("#f_sub_category").show();
 				$.ajax({
-				    type: "POST",
-				    url: "./?action=showSubCategory",
+				    type: "GET",
+				    url: "./?action=getcategories",
 				    // The key needs to match your method's input parameter (case-sensitive).
-				    data: JSON.stringify({id : pid}),
+				    data: {parentid : id},
 				    contentType: "application/x-www-form-urlencoded",
 				    dataType: "json",
 				    success: function(data)
 				    {  
 				    	$('#f_sub_category').html('<option value="">Sub Category</option>');
-				    	data.forEach(function(item) {
-		    	            $('#f_sub_category').append("<option value='"+item['name']+"'>"+item['name']+"</option>");
+				    	data.forEach(function(sub_category) {
+		    	            $('#f_sub_category').append("<option value='"+sub_category['id']+"'>"+sub_category['name']+"</option>");
 						});
+						console.log(data);
 				    },
 				    failure: function(errMsg) {
 				        alert(errMsg);
@@ -85,8 +87,8 @@ $(document).ready(function(){
 							<tr>
 						        <td>`+item['id']+`</td>
 						        <td>`+item['name']+`</td>
-						        <td class="pc">`+item['p_category']+`</td>
-						        <td class="sc">`+item['s_category']+`</td>
+						        <td class="pc">`+item['parent_category']+`</td>
+						        <td class="sc">`+item['sub_category']+`</td>
 						        <td>`+item['current_price']+`</td>
 						        <td>`+item['cost']+`</td>
 						        <td>
@@ -105,50 +107,13 @@ $(document).ready(function(){
 					var pageCount = Math.ceil(total/limit);
 					var startpage = 1;
 					var endpage = pageCount;
-					var linkBeforeCurrentPage = 4;
+					var linkBeforeCurrentPage = 1;
 					var html="";
 
 					$('#pageLimit').html("");
 					if(total!=0){
-						// if(pageCount != 1){
-						// 	if(page == startpage ){
-						// 		html += `<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>`;
-						// 	} else {
-						// 		previous_page = page-1;
-						// 		html += `<li class="page-item" p="`+previous_page+`"><a class="page-link" href="#">Previous</a></li>`;
-						// 	}
-						// 	for(var i=1; i<pageCount+1; i++){
-
-						// 		if(page == i){
-
-						// 			html += ` <li class="page-item active" p="`+i+`">
-						//     					<a class="page-link" href="#">`+i+`</a>
-						//     			  </li>`;
-						// 		} else {
-						// 			html += ` <li class="page-item" p="`+i+`">
-						//     					<a class="page-link" href="#">`+i+`</a>
-						//     			  </li>`;
-						// 		}
-  							
-						// 	}
-						// 	if(page == endpage){
-						// 		html += `<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>`;
-						// 	} else {
-						// 		next_page = +page+1;
-						// 		html += `<li class="page-item" p="`+next_page+`"><a class="page-link" href="#">Next</a></li>`;
-						// 	}
-							
-						// }else{
-
-						// 	html += ` <li class="page-item active" p="1">
-						//     			<a class="page-link" href="#">1</a>
-						//     		</li>`;
-						// }
 						makePagi(total, limit, page, linkBeforeCurrentPage);
 						}
-						
-						// $('#pageLimit').append(html);
-
 				    },
 				    failure: function(errMsg) {
 				        alert(errMsg);
@@ -177,7 +142,7 @@ $(document).ready(function(){
 			    }
 			    next(endpage,currentPage);
 			    return false;
-			    alert('c1');
+			    // alert('c1');
 			}
 
 			// first
@@ -205,7 +170,7 @@ $(document).ready(function(){
 			    }
 
 			    next(endpage,currentPage);
-			    alert('c2');
+			    // alert('c2');
 			}else{
 			    if(currentPage <= linkBeforeCurrentPage){
 			    	previous(startpage,currentPage);
@@ -219,7 +184,7 @@ $(document).ready(function(){
 			        	showLink(endpage,currentPage,endpage); 
 			        }
 			        next(endpage,currentPage);
-			       alert('c3');
+			       // alert('c3');
 			    }
 			    if((pageCount - currentPage) <= linkBeforeCurrentPage){
 			    	previous(startpage,currentPage);
@@ -233,7 +198,7 @@ $(document).ready(function(){
 			            showLink(i,currentPage,i);
 			        }
 			        next(endpage,currentPage);
-			        alert('c4');
+			        // alert('c4');
 			    }
 			}
 			return false;

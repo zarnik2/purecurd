@@ -13,8 +13,8 @@
 		case "index":
 			$item->index($status);
 			break;
-		case "showSubCategory":
-			$item->showSubCategory();
+		case "getcategories":
+			$item->getCategories();
 			break;
 		case "store":
 			$item->create();

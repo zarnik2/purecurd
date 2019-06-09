@@ -41,7 +41,7 @@
 					name="f_parent_category">
 				    	<option>All category</option>
 					    {foreach from=$parent_category item=pc}
-							<option value="{$pc.name}" myid="{$pc.id}">{$pc.name}</option>
+							<option value="{$pc.id}">{$pc.name}</option>
 						{/foreach}
 	  				</select>
 	  				<select class="form-control col-md-2" id="f_sub_category" 
@@ -112,9 +112,9 @@
 						  <div class="form-group">
 						    <label for="parent_category">Parent_category :</label>
 							    <select class="form-control col-md-7" id="parent_category" name="parent_category">
-							    	<option value=""></option>
+							    	<option value="All category"></option>
 								    {foreach from=$parent_category item=pc}
-    									<option value="{$pc.name}" myid="{$pc.id}">{$pc.name}</option>
+    									<option value="{$pc.id}">{$pc.name}</option>
 									{/foreach}
 	  							</select>
 						  </div>

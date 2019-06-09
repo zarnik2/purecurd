@@ -106,29 +106,38 @@
 	    }
 	    public function saveData($n,$pc,$sc,$cp,$c,$dt,$d_amt,$bar){
 
-	    	 $sql = "INSERT INTO item (name,p_category,s_category,current_price,cost,d_type,d_amount,barcode) VALUES ('$n','$pc','$sc',$cp,$c,'$dt',$d_amt,$bar)";
+	    	 $sql = "INSERT INTO item (name,p_category,s_category,current_price,cost,d_type,d_amount,barcode) VALUES ('$n',$pc,$sc,$cp,$c,'$dt',$d_amt,$bar)";
 	    	 $stmt = $this->db->prepare($sql);
 	    	 $insertQry = $stmt->execute();
 	    	 return $insertQry;
 
 	    }
 	    public function updateData($id,$n,$pc,$sc,$cp,$c,$dt,$d_amt,$bar){
-	    	 $sql = "UPDATE item SET name='$n',p_category='$pc',s_category='$sc',current_price=$cp,cost=$c,d_type='$dt',d_amount=$d_amt,barcode=$bar WHERE id=$id";
+	    	 $sql = "UPDATE item SET name='$n',p_category=$pc,s_category=$sc,current_price=$cp,cost=$c,d_type='$dt',d_amount=$d_amt,barcode=$bar WHERE id=$id";
 	    	 $stmt = $this->db->prepare($sql);
 	    	 $updateQry = $stmt->execute();
 	    	 return $updateQry;
 	    }
-	    
-	    public function get_parent_category(){
-	    	$sql = "SELECT * FROM parent_category";
+
+	    public function getCategories($get){
+	    	// $sql = " SELECT * FROM parent_category WHERE parent_id=".$id." ";
+	    	$sql = ' select * from parent_category ';
+	    	$where = "";
+
+	    	if(isset($get['parentid'])){
+	    		$where .= $this->checkWhere($where). " parent_id='".$get['parentid']."' ";
+	    	}else{
+	    		$where .= $this->checkWhere($where). " parent_id='0' ";
+	    	}
+	    	$sql = $sql.$where;
 	       	$res = $this->runQuery($sql);
 	    	return $res;
 	    }
-	    public function get_sub_category($id){
-	    	$sql = "SELECT * FROM sub_category WHERE pid='".$id."'";
-	    	$res = $this->runQuery($sql);
-	    	return $res;
-	    }
+	    // public function get_sub_category($id){
+	    // 	$sql = "SELECT * FROM sub_category WHERE pid='".$id."'";
+	    // 	$res = $this->runQuery($sql);
+	    // 	return $res;
+	    // }
 
 	    public function destroy($id){
 	    	$sql = "DELETE FROM item WHERE id='".$id."'";
@@ -145,29 +154,33 @@
 	    }
 
 	    public function getItems($get){
-	    	$sql = ' select * from item ';
+	    	// $sql = ' select * from item ';
+	    	// $sql = " SELECT i.id,i.name,parent.name as p_category,sub.name as s_category,i.current_price,i.cost,i.d_type,i.d_amount,i.barcode FROM item i LEFT JOIN parent_category parent on parent.id = i.p_category LEFT JOIN parent_category sub on sub.id = i.s_category ";
+	    	$sql = ' SELECT parent.name as parent_category,sub.name as sub_category,item.* FROM item  
+					LEFT JOIN parent_category parent on parent.id = item.p_category
+					LEFT JOIN parent_category sub on sub.id = item.s_category ';
 	    	$totalSql = 'select count(*) from item';
 	    	$where = "";
 	    	// var_dump($get);
 	    	if(!empty($get['id'])){
-	    		$where .= $this->checkWhere($where). " id='".$get['id']."' ";
+	    		$where .= $this->checkWhere($where). " item.id='".$get['id']."' ";
 	    	}
 
 	    	if(!empty($get['category'])){
-	    		$where .= $this->checkWhere($where). " p_category='".$get['category']."' ";
+	    		$where .= $this->checkWhere($where). " item.p_category='".$get['category']."' ";
 	    	}
 
 	    	// sub
 	    	if(!empty($get['sub_category'])){
-	    	    $where .= $this->checkWhere($where). " s_category='".$get['sub_category']."' ";
+	    	    $where .= $this->checkWhere($where). " item.s_category='".$get['sub_category']."' ";
 	    	}
 	    	// name
 	    	if(!empty($get['name'])){
-	    		 $where .= $this->checkWhere($where). " name LIKE '%".$get['name']."%' ";
+	    		 $where .= $this->checkWhere($where). " item.name LIKE '%".$get['name']."%' ";
 	    	}
 	    	// cost
 	    	if(!empty($get['price'])){
-	    		$where .= $this->checkWhere($where). " current_price LIKE '%".$get['price']."%' ";
+	    		$where .= $this->checkWhere($where). " item.current_price LIKE '%".$get['price']."%' ";
 	    	}
 	    	// order by
 
@@ -181,7 +194,6 @@
 
 	    	$sql = $sql.$where.$limitSql;
 	    	$countSql = $totalSql.$where;
-
 	    	// echo $sql;    // to return 2 query (total , normal)
 	    	$items =  $this->runQuery($sql);
 	    	$countItems = $this->runQuery($countSql);

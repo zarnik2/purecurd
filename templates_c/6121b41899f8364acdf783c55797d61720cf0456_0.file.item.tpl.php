@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-08 19:47:21
+/* Smarty version 3.1.33, created on 2019-06-09 12:36:10
   from 'C:\xampp\htdocs\pureCRUD\view\item.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cfbf4a9e699b1_30670615',
+  'unifunc' => 'content_5cfce11a8f3ef1_20324921',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '6121b41899f8364acdf783c55797d61720cf0456' => 
     array (
       0 => 'C:\\xampp\\htdocs\\pureCRUD\\view\\item.tpl',
-      1 => 1560016039,
+      1 => 1560076567,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cfbf4a9e699b1_30670615 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cfce11a8f3ef1_20324921 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <head>
 	<?php echo '<script'; ?>
@@ -80,8 +80,7 @@ $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->t
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['pc']->value) {
 ?>
-							<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
-" myid="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
+							<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
 "><?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
 </option>
 						<?php
@@ -157,14 +156,13 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 						  <div class="form-group">
 						    <label for="parent_category">Parent_category :</label>
 							    <select class="form-control col-md-7" id="parent_category" name="parent_category">
-							    	<option value=""></option>
+							    	<option value="All category"></option>
 								    <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['parent_category']->value, 'pc');
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['pc']->value) {
 ?>
-    									<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
-" myid="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
+    									<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
 "><?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
 </option>
 									<?php

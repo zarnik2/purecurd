@@ -14,9 +14,8 @@ class ItemController extends Controller{
 
     public function index($info){
           $get = $_GET;
-    	  $item = new Item();
-    	  $parent_category = $item->get_parent_category();
-    	  $item_data = $item->getItems($get);
+    	  $parent_category = $this->item->getCategories($get);
+    	  $item_data = $this->item->getItems($get);
     	  $count = sizeof($item_data);
     	  $limit = 3;
     	  $buttonCount = $count/$limit;
@@ -31,28 +30,16 @@ class ItemController extends Controller{
     	  $this->smarty->display('item.tpl');
     }
 
-    public function showSubCategory(){
+    public function getCategories(){
     	
-    	  $get = json_decode(file_get_contents("php://input"),true);
-    	  $id = $get['id'];
-          $item = new Item();
-          $sub_category  = $item->get_sub_category($id);
-	      $response = json_encode($sub_category);
+    	  // $get = json_decode(file_get_contents("php://input"),true);
+          $get = $_GET;
+          $categories  = $this->item->getCategories($get);
+	      $response = json_encode($categories,JSON_PRETTY_PRINT);
           echo $response;
           exit();
+
     }
-
-    // public function getStartUpItem(){
-    // 	  $get = json_decode(file_get_contents("php://input"),true);
-    // 	  $limit = $get['limit'];
-    // 	  $offset = $get['offset'];
-    // 	  $item = new Item();
-    // 	  $items = $item->limit_item($limit,$offset);
-    // 	  $response = json_encode($items);
-    // 	  echo $response;
-    // 	  exit();
-
-    // }
 
     public function create(){
     	if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -123,7 +110,8 @@ class ItemController extends Controller{
         $item_data = $data['items'];
         // echo "<pre>";
         // var_dump($item_data);
-		$parent_category = $this->item->get_parent_category();
+        $parent_category_get = [];
+		$parent_category = $this->item->getCategories($parent_category_get);
 		if(sizeof($item_data)>0){
 			$this->smarty->assign('items',$item_data);
 		  	$this->smarty->assign('parent_category',$parent_category);
@@ -131,20 +119,6 @@ class ItemController extends Controller{
 		}else{
 			echo "<h4 style='color:red'>404 not found!</h4>";
 		}
-    }
-
-    public function getItemByFilter(){
-    	$get = json_decode(file_get_contents("php://input"),true);
-    	$p_category = $get['p_category'];
-    	$s_category=$get['s_category'];
-    	$name = $get['name'];
-    	$cost = $get['cost'];
-    	$item = new Item();
-    	$filterd_item = $item->getItemByFilter($p_category,$s_category,$name,$cost);
-    	// $msg = ['msg' => $s_category];
-    	$response = json_encode($filterd_item);
-    	// $response = json_encode($msg);
-    	echo $response;
     }
 
 	public function getItems(){
