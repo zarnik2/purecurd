@@ -118,16 +118,7 @@
 	    	 $updateQry = $stmt->execute();
 	    	 return $updateQry;
 	    }
-	    public function all(){
-	    	$sql = "SELECT * FROM item";
-	       	$res = $this->runQuery($sql);
-	    	return $res;
-	    }
-	    public function get_item_by_id($id){
-	    	$sql = "SELECT * FROM item WHERE id='".$id."'";
-	    	$res = $this->runQuery($sql);
-	    	return $res;
-	    }
+	    
 	    public function get_parent_category(){
 	    	$sql = "SELECT * FROM parent_category";
 	       	$res = $this->runQuery($sql);
@@ -158,6 +149,10 @@
 	    	$totalSql = 'select count(*) from item';
 	    	$where = "";
 	    	// var_dump($get);
+	    	if(!empty($get['id'])){
+	    		$where .= $this->checkWhere($where). " id='".$get['id']."' ";
+	    	}
+
 	    	if(!empty($get['category'])){
 	    		$where .= $this->checkWhere($where). " p_category='".$get['category']."' ";
 	    	}

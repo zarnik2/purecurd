@@ -160,7 +160,6 @@ $(document).ready(function(){
 			total = parseInt(total);
 			limit = parseInt(limit);
 			currentPage = parseInt(currentPage);
-
 			var pageCount = Math.ceil(total/limit);
 			var startpage = 1;
 			var endpage = pageCount;

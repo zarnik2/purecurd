@@ -13,9 +13,10 @@ class ItemController extends Controller{
     }
 
     public function index($info){
+          $get = $_GET;
     	  $item = new Item();
     	  $parent_category = $item->get_parent_category();
-    	  $item_data = $item->all();
+    	  $item_data = $item->getItems($get);
     	  $count = sizeof($item_data);
     	  $limit = 3;
     	  $buttonCount = $count/$limit;
@@ -41,17 +42,17 @@ class ItemController extends Controller{
           exit();
     }
 
-    public function getStartUpItem(){
-    	  $get = json_decode(file_get_contents("php://input"),true);
-    	  $limit = $get['limit'];
-    	  $offset = $get['offset'];
-    	  $item = new Item();
-    	  $items = $item->limit_item($limit,$offset);
-    	  $response = json_encode($items);
-    	  echo $response;
-    	  exit();
+    // public function getStartUpItem(){
+    // 	  $get = json_decode(file_get_contents("php://input"),true);
+    // 	  $limit = $get['limit'];
+    // 	  $offset = $get['offset'];
+    // 	  $item = new Item();
+    // 	  $items = $item->limit_item($limit,$offset);
+    // 	  $response = json_encode($items);
+    // 	  echo $response;
+    // 	  exit();
 
-    }
+    // }
 
     public function create(){
     	if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -113,9 +114,16 @@ class ItemController extends Controller{
 
     public function edit(){
 		$id = htmlspecialchars($_GET['id']);
-		$item = new Item();
-		$item_data = $item->get_item_by_id($id);
-		$parent_category = $item->get_parent_category();
+        if($id=="0" || $id==""){
+            $id="NULL";
+        }
+        $get = [];
+        $get['id'] =  $id;
+		$data = $this->item->getItems($get);
+        $item_data = $data['items'];
+        // echo "<pre>";
+        // var_dump($item_data);
+		$parent_category = $this->item->get_parent_category();
 		if(sizeof($item_data)>0){
 			$this->smarty->assign('items',$item_data);
 		  	$this->smarty->assign('parent_category',$parent_category);
