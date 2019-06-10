@@ -107,7 +107,7 @@ $(document).ready(function(){
 					var pageCount = Math.ceil(total/limit);
 					var startpage = 1;
 					var endpage = pageCount;
-					var linkBeforeCurrentPage = 2;
+					var linkBeforeCurrentPage = 3;
 					var html="";
 
 					$('#pageLimit').html("");
@@ -131,16 +131,16 @@ $(document).ready(function(){
 			// console.log(' ------------ page count ------------- '+pageCount+' ---------------');
 			// debugger;
 
-			if(pageCount == 1){
-				showLink(1,currentPage,1);
-				return false;
-			}
+			// if(pageCount == 1){
+			// 	showLink(1,currentPage,1);
+			// 	return false;
+			// }
 			if(pageCount < ((linkBeforeCurrentPage*2)+1)){
-				previous(startpage,currentPage);
+				// previous(startpage,currentPage);
 			    for(i=1; i<=pageCount; i++){
 			        showLink(i,currentPage,i);
 			    }
-			    next(endpage,currentPage);
+			    // next(endpage,currentPage);
 			    return false;
 			    // alert('c1');
 			}
@@ -170,7 +170,7 @@ $(document).ready(function(){
 			    }
 
 			    next(endpage,currentPage);
-			    // alert('c2');
+			    alert('c2');
 			}else{
 			    if(currentPage <= linkBeforeCurrentPage){
 			    	previous(startpage,currentPage);
@@ -184,7 +184,7 @@ $(document).ready(function(){
 			        	showLink(endpage,currentPage,endpage); 
 			        }
 			        next(endpage,currentPage);
-			       // alert('c3');
+			       alert('c3');
 			    }
 			    if((pageCount - currentPage) <= linkBeforeCurrentPage){
 			    	previous(startpage,currentPage);
@@ -198,7 +198,7 @@ $(document).ready(function(){
 			            showLink(i,currentPage,i);
 			        }
 			        next(endpage,currentPage);
-			        // alert('c4');
+			        alert('c4');
 			    }
 			}
 			return false;
