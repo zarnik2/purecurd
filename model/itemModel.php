@@ -118,8 +118,14 @@
 	    	 $updateQry = $stmt->execute();
 	    	 return $updateQry;
 	    }
-	    public function get_parent_category(){
-	    	$sql = "SELECT * FROM parent_category";
+	    public function get_category($get){
+	    	$sql = " SELECT * FROM parent_category ";
+
+	    	if(isset($get['parentid'])){
+	    		$where .= $this->checkWhere($where) . " parent_id=".$get['parentid']." "; 
+	    	}else{
+	    		$where .= $this->checkWhere($where) . " parent_id='0' "; 
+	    	}
 	        $stmt = $this->db->prepare($sql);
 	        $stmt->execute();
 	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);

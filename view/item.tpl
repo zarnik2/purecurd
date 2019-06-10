@@ -30,6 +30,24 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 			<div class="col-md-12 ">
 				<button  type="button" class="btn btn-outline-success float-right" data-toggle="modal" data-target="#myModal">Create Items</button>
 			</div>
+			{if $count gt 0}
+			<div class="col-md-12 ">
+				<form class="form-inline">
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="name" id="search_name" name="search_name">
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="price" id="price">
+					<select class="form-control col-md-2 mr-2" id="f_parent_category" 
+					name="f_parent_category">
+				    	<option>All category</option>
+					    {foreach from=$parent_category item=pc}
+							<option value="{$pc.id}">{$pc.name}</option>
+						{/foreach}
+	  				</select>
+	  				<select class="form-control col-md-2" id="f_sub_category" 
+					name="f_sub_category" style="display:none;">
+	  				</select>
+				</form>
+			</div>
+			{/if}
 			<div class="col-md-12 mb-3">
 			</div>
 			<div class="col-md-12">

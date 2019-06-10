@@ -13,22 +13,23 @@
 	    	  $item = new Item();
         	  $parent_category = $item->get_parent_category();
         	  $item_data = $item->get_item();
+              $count = sizeof($item_data);
+              $this->smarty->assign('count',$count);
         	  $this->smarty->assign('parent_category',$parent_category);
         	  $this->smarty->assign('items',$item_data);
 	    	  $this->smarty->display('item.tpl');
 	    }
 
-	    public function showSubCategory(){
-	    	
-	    	  $get = json_decode(file_get_contents("php://input"),true);
-	    	  $id = $get['id'];
-	          $item = new Item();
-	          $sub_category  = $item->get_sub_category($id);
-		      $response = json_encode($sub_category);
-	          echo $response;
-	          exit();
+	     public function getCategories(){
+        
+              // $get = json_decode(file_get_contents("php://input"),true);
+              $get = $_GET;
+              $categories  = $this->item->getCategories($get);
+              $response = json_encode($categories,JSON_PRETTY_PRINT);
+              echo $response;
+              exit();
 
-	    }
+        }
 
 	    public function create(){
 	    	if($_SERVER["REQUEST_METHOD"] == "POST"){

@@ -7,7 +7,6 @@
 	} else {
 		$header="index";
 	}
-	
 
 	switch($header){
 		case "index":

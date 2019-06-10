@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-04 08:32:51
+/* Smarty version 3.1.33, created on 2019-06-10 10:42:13
   from 'C:\xampp\htdocs\POS\view\item.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cf61093f17081_76491337',
+  'unifunc' => 'content_5cfe17e5037761_53802396',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4309952c027113cbfebed29c0f9634f9873d9ea1' => 
     array (
       0 => 'C:\\xampp\\htdocs\\POS\\view\\item.tpl',
-      1 => 1559629836,
+      1 => 1560156071,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cf61093f17081_76491337 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cfe17e5037761_53802396 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <?php echo '<script'; ?>
  type="text/javascript" 
@@ -65,6 +65,33 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"><?php ec
 			<div class="col-md-12 ">
 				<button  type="button" class="btn btn-outline-success float-right" data-toggle="modal" data-target="#myModal">Create Items</button>
 			</div>
+			<?php if ($_smarty_tpl->tpl_vars['count']->value > 0) {?>
+			<div class="col-md-12 ">
+				<form class="form-inline">
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="name" id="search_name" name="search_name">
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="price" id="price">
+					<select class="form-control col-md-2 mr-2" id="f_parent_category" 
+					name="f_parent_category">
+				    	<option>All category</option>
+					    <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['parent_category']->value, 'pc');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['pc']->value) {
+?>
+							<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
+"><?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
+</option>
+						<?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+	  				</select>
+	  				<select class="form-control col-md-2" id="f_sub_category" 
+					name="f_sub_category" style="display:none;">
+	  				</select>
+				</form>
+			</div>
+			<?php }?>
 			<div class="col-md-12 mb-3">
 			</div>
 			<div class="col-md-12">
