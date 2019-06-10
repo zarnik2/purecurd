@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-07 05:59:11
+/* Smarty version 3.1.33, created on 2019-06-10 03:26:59
   from 'C:\xampp\htdocs\POS\view\item.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cf9e10f2e7f21_71084100',
+  'unifunc' => 'content_5cfdb1e3cf2ec9_91140745',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4309952c027113cbfebed29c0f9634f9873d9ea1' => 
     array (
       0 => 'C:\\xampp\\htdocs\\POS\\view\\item.tpl',
-      1 => 1559879948,
+      1 => 1560129231,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cf9e10f2e7f21_71084100 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cfdb1e3cf2ec9_91140745 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <head>
 	<?php echo '<script'; ?>
@@ -80,8 +80,7 @@ $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->t
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['pc']->value) {
 ?>
-							<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
-" myid="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
+							<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
 "><?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
 </option>
 						<?php
@@ -120,12 +119,13 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 			</div>
 			<div class="col-md-12">
 				<nav>
-				  <ul class="pagination" id="pageLimit">
+				  <ul class="pagination justify-content-center" id="pageLimit" style="margin:20px 0">
 				  </ul>
 					<ul class="nav navbar-nav float-right" style="margin-top: 25px;">
 						<li>
 							<select style="width: 70px !important;" id="limit">
-								<option value="2">2</option> 
+								<option value="2">2</option>
+								<option value="3">3</option>  
 								<option value="5">5</option> 
 								<option value="10">10</option> 
 							</select>
@@ -156,14 +156,13 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 						  <div class="form-group">
 						    <label for="parent_category">Parent_category :</label>
 							    <select class="form-control col-md-7" id="parent_category" name="parent_category">
-							    	<option value=""></option>
+							    	<option value="All category"></option>
 								    <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['parent_category']->value, 'pc');
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['pc']->value) {
 ?>
-    									<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
-" myid="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
+    									<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
 "><?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
 </option>
 									<?php

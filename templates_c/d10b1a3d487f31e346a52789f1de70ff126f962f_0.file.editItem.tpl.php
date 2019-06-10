@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-05 03:18:04
+/* Smarty version 3.1.33, created on 2019-06-10 03:28:39
   from 'C:\xampp\htdocs\POS\view\editItem.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cf7184c881784_86057301',
+  'unifunc' => 'content_5cfdb247582178_13517025',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'd10b1a3d487f31e346a52789f1de70ff126f962f' => 
     array (
       0 => 'C:\\xampp\\htdocs\\POS\\view\\editItem.tpl',
-      1 => 1559697178,
+      1 => 1560129230,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cf7184c881784_86057301 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cfdb247582178_13517025 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <head>
 <?php echo '<script'; ?>
@@ -69,14 +69,12 @@ $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->t
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['pc']->value) {
 ?>
-							    	<?php if ($_smarty_tpl->tpl_vars['pc']->value['name'] == $_smarty_tpl->tpl_vars['item']->value['p_category']) {?>
-									<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
-" myid="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
+							    	<?php if ($_smarty_tpl->tpl_vars['pc']->value['id'] == $_smarty_tpl->tpl_vars['item']->value['p_category']) {?>
+									<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
 " selected="selected"><?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
 </option>
 									<?php } else { ?>
-									<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
-" myid="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
+									<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
 "><?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
 </option>
 									<?php }?>

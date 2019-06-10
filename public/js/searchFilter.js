@@ -107,7 +107,7 @@ $(document).ready(function(){
 					var pageCount = Math.ceil(total/limit);
 					var startpage = 1;
 					var endpage = pageCount;
-					var linkBeforeCurrentPage = 1;
+					var linkBeforeCurrentPage = 2;
 					var html="";
 
 					$('#pageLimit').html("");
@@ -210,29 +210,29 @@ $(document).ready(function(){
 		function showLink(i,currentPage,text){
 		   	var html ="";
 			if(i==currentPage){
-				html += ` <li class="page-item active" p="`+i+`"><a class="page-link" href="#">`+text+`</a></li>`;
+				html += ` <li class="page-item active" p="`+i+`"><a class="page-link">`+text+`</a></li>`;
 			} else {
-				html += ` <li class="page-item" p="`+i+`"><a class="page-link" href="#">`+text+`</a></li>`;
+				html += ` <li class="page-item" p="`+i+`"><a class="page-link">`+text+`</a></li>`;
 			}
 			$('#pageLimit').append(html);
 		}
 		function previous(startpage,currentPage){
 			var html = "";
 			if(startpage == currentPage){
-				html += `<li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>`;
+				html += `<li class="page-item disabled"><a class="page-link">&laquo;</a></li>`;
 			}else{
 				var previousPage = currentPage-1;
-				html += `<li class="page-item" p="`+previousPage+`"><a class="page-link" href="#">&laquo;</a></li>`;
+				html += `<li class="page-item" p="`+previousPage+`"><a class="page-link">&laquo;</a></li>`;
 			}
 			$('#pageLimit').append(html);
 		}
 		function next(endpage,currentPage){
 			var html = "";
 			if(endpage == currentPage){
-				html += `<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>`;
+				html += `<li class="page-item disabled"><a class="page-link">&raquo;</a></li>`;
 			}else{
 			    var nextPage =  +currentPage + 1;
-				html += `<li class="page-item" p="`+nextPage+`"><a class="page-link" href="#">&raquo;</a></li>`;
+				html += `<li class="page-item" p="`+nextPage+`"><a class="page-link">&raquo;</a></li>`;
 			}
 			
 			$('#pageLimit').append(html);
