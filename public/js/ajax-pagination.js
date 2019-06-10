@@ -32,15 +32,20 @@ function makePagi(options){
 	var startpage = 1;
 	var endpage = pageCount;
 	// console.log(' ------------ page count ------------- '+pageCount+' ---------------');
-	// debugger;
+	debugger;
 
 	// !note the condition of total is very low and cannot produce previous link and next link
 	if(pageCount < ((linkBeforeCurrentPage*2)+1)){
-		previous(currentPage);
+		if(pageCount!=1){
+			previous(currentPage);
+		}
+		
 	    for(i=1; i<=pageCount; i++){
 	        showLink(i,currentPage,i);
 	    }
-	    next(pageCount,currentPage);
+	    if(pageCount!=1){
+	    	next(pageCount,currentPage);
+	    }
 	    return false;
 	}
 

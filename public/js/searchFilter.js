@@ -51,8 +51,8 @@ $(document).ready(function(){
 	
 	$('#pageLimit').delegate('.page-item','click',function(){
 		if($(this).hasClass('disabled')){ return false; }
-		$('.page-item.active').removeClass('active');
-		$(this).addClass('active');
+		// $('.page-item.active').removeClass('active');
+		// $(this).addClass('active');
 		var page = $(this).attr('p');
 		getItem(page);
 	});

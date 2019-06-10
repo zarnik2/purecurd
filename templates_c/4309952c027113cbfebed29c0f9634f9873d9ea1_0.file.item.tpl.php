@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-10 03:26:59
+/* Smarty version 3.1.33, created on 2019-06-10 10:00:07
   from 'C:\xampp\htdocs\POS\view\item.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cfdb1e3cf2ec9_91140745',
+  'unifunc' => 'content_5cfe0e075c4827_22620341',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4309952c027113cbfebed29c0f9634f9873d9ea1' => 
     array (
       0 => 'C:\\xampp\\htdocs\\POS\\view\\item.tpl',
-      1 => 1560129231,
+      1 => 1560153600,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cfdb1e3cf2ec9_91140745 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cfe0e075c4827_22620341 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <head>
 	<?php echo '<script'; ?>
@@ -35,6 +35,9 @@ function content_5cfdb1e3cf2ec9_91140745 (Smarty_Internal_Template $_smarty_tpl)
 >
 	<?php echo '<script'; ?>
  src="./public/js/searchFilter.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="./public/js/ajax-pagination.js"><?php echo '</script'; ?>
 >
 	<?php echo '<script'; ?>
  src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"><?php echo '</script'; ?>
@@ -119,8 +122,9 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 			</div>
 			<div class="col-md-12">
 				<nav>
-				  <ul class="pagination justify-content-center" id="pageLimit" style="margin:20px 0">
-				  </ul>
+				  <!-- <ul class="pagination justify-content-center" id="pageLimit" style="margin:20px 0">
+				  </ul> -->
+				  <div id="pageLimit"></div>
 					<ul class="nav navbar-nav float-right" style="margin-top: 25px;">
 						<li>
 							<select style="width: 70px !important;" id="limit">
@@ -128,6 +132,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 								<option value="3">3</option>  
 								<option value="5">5</option> 
 								<option value="10">10</option> 
+								<option value="30">30</option> 
 							</select>
 						</li>
 					</ul>
