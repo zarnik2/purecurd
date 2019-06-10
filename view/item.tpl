@@ -5,6 +5,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="./public/js/item.js"></script>
 	<script src="./public/js/searchFilter.js"></script>
+	<script src="./public/js/ajax-pagination.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<style>
@@ -75,8 +76,9 @@
 			</div>
 			<div class="col-md-12">
 				<nav>
-				  <ul class="pagination justify-content-center" id="pageLimit" style="margin:20px 0">
-				  </ul>
+				  <!-- <ul class="pagination justify-content-center" id="pageLimit" style="margin:20px 0">
+				  </ul> -->
+				  <div id="pageLimit"></div>
 					<ul class="nav navbar-nav float-right" style="margin-top: 25px;">
 						<li>
 							<select style="width: 70px !important;" id="limit">
