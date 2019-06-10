@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-10 10:42:13
+/* Smarty version 3.1.33, created on 2019-06-10 12:27:16
   from 'C:\xampp\htdocs\POS\view\item.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cfe17e5037761_53802396',
+  'unifunc' => 'content_5cfe3084cfa529_51867868',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4309952c027113cbfebed29c0f9634f9873d9ea1' => 
     array (
       0 => 'C:\\xampp\\htdocs\\POS\\view\\item.tpl',
-      1 => 1560156071,
+      1 => 1560162430,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cfe17e5037761_53802396 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cfe3084cfa529_51867868 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <?php echo '<script'; ?>
  type="text/javascript" 
@@ -78,17 +78,35 @@ $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->t
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['pc']->value) {
 ?>
-							<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
-"><?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
+					       
+					    <option <?php echo !empty($_smarty_tpl->tpl_vars['get']->value['category']) && $_smarty_tpl->tpl_vars['get']->value['category'] == $_smarty_tpl->tpl_vars['pc']->value['id'] ? 'selected' : '';?>
+ value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
+" ><?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
+</option>	
+						   
+						<?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+	  				</select>
+	  				<?php if (isset($_smarty_tpl->tpl_vars['success']->value)) {?>
+	  				<select class="form-control col-md-2" id="f_sub_category" 
+					name="f_sub_category">
+						<option>Sub Category</option>
+						 <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['sub_category']->value, 'sc');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['sc']->value) {
+?>
+							<option value="<?php echo $_smarty_tpl->tpl_vars['sc']->value['id'];?>
+"><?php echo $_smarty_tpl->tpl_vars['sc']->value['name'];?>
 </option>
 						<?php
 }
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 	  				</select>
-	  				<select class="form-control col-md-2" id="f_sub_category" 
-					name="f_sub_category" style="display:none;">
-	  				</select>
+	  				<?php }?>
 				</form>
 			</div>
 			<?php }?>
@@ -121,9 +139,9 @@ foreach ($_from as $_smarty_tpl->tpl_vars['item']->value) {
 </td>
 							        <td><?php echo $_smarty_tpl->tpl_vars['item']->value['name'];?>
 </td>
-							        <td><?php echo $_smarty_tpl->tpl_vars['item']->value['p_category'];?>
+							        <td><?php echo $_smarty_tpl->tpl_vars['item']->value['parent_category'];?>
 </td>
-							        <td><?php echo $_smarty_tpl->tpl_vars['item']->value['s_category'];?>
+							        <td><?php echo $_smarty_tpl->tpl_vars['item']->value['sub_category'];?>
 </td>
 							        <td><?php echo $_smarty_tpl->tpl_vars['item']->value['current_price'];?>
 </td>
@@ -184,8 +202,7 @@ $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->t
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['pc']->value) {
 ?>
-    									<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
-" myid="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
+    									<option value="<?php echo $_smarty_tpl->tpl_vars['pc']->value['id'];?>
 "><?php echo $_smarty_tpl->tpl_vars['pc']->value['name'];?>
 </option>
 									<?php

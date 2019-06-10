@@ -29,10 +29,10 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 						    <select class="form-control col-md-5" id="parent_category" name="parent_category">
 						    	<option value=""></option>
 							    {foreach from=$parent_category item=pc}
-							    	{if $pc.name eq $item.p_category}
-									<option value="{$pc.name}" myid="{$pc.id}" selected="selected">{$pc.name}</option>
+							    	{if $pc.id eq $item.p_category}
+									<option value="{$pc.id}"  selected="selected">{$pc.name}</option>
 									{else}
-									<option value="{$pc.name}" myid="{$pc.id}">{$pc.name}</option>
+									<option value="{$pc.id}">{$pc.name}</option>
 									{/if}
 								{/foreach}
 							</select>

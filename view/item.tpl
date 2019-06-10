@@ -39,12 +39,20 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 					name="f_parent_category">
 				    	<option>All category</option>
 					    {foreach from=$parent_category item=pc}
-							<option value="{$pc.id}">{$pc.name}</option>
+					       
+					    <option {(!empty($get['category']) && $get['category'] == $pc.id)? 'selected' : ''} value="{$pc.id}" >{$pc.name}</option>	
+						   
 						{/foreach}
 	  				</select>
+	  				{if isset($success) }
 	  				<select class="form-control col-md-2" id="f_sub_category" 
-					name="f_sub_category" style="display:none;">
+					name="f_sub_category">
+						<option>Sub Category</option>
+						 {foreach from=$sub_category item=sc}
+							<option value="{$sc.id}">{$sc.name}</option>
+						{/foreach}
 	  				</select>
+	  				{/if}
 				</form>
 			</div>
 			{/if}
@@ -71,8 +79,8 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 							      <tr>
 							        <td>{$item.id}</td>
 							        <td>{$item.name}</td>
-							        <td>{$item.p_category}</td>
-							        <td>{$item.s_category}</td>
+							        <td>{$item.parent_category}</td>
+							        <td>{$item.sub_category}</td>
 							        <td>{$item.current_price}</td>
 							        <td>{$item.cost}</td>
 							        <td>
@@ -121,7 +129,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 							    <select class="form-control col-md-7" id="parent_category" name="parent_category">
 							    	<option value=""></option>
 								    {foreach from=$parent_category item=pc}
-    									<option value="{$pc.name}" myid="{$pc.id}">{$pc.name}</option>
+    									<option value="{$pc.id}">{$pc.name}</option>
 									{/foreach}
 	  							</select>
 						  </div>

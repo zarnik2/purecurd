@@ -12,8 +12,8 @@
 		case "index":
 			$item->index();
 			break;
-		case "showSubCategory":
-			$item->showSubCategory();
+		case "getcategories":
+			$item->getCategories();
 			break;
 		case "store":
 			$item->create();
