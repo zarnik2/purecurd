@@ -51,37 +51,35 @@ $(document).ready(function(){
 	});
 
 	$("#f_parent_category").on('change',function(){
-		// var pid = $('#f_parent_category option:selected').attr('myid');
-		var id = $('#f_parent_category').val();
-		if(id != "All category"){
-			$("#f_sub_category").show();
-			$.ajax({
-			    type: "GET",
-			    url: "./?action=getcategories",
-			    // The key needs to match your method's input parameter (case-sensitive).
-			    data: {parentid : id},
-			    contentType: "application/x-www-form-urlencoded",
-			    dataType: "json",
-			    success: function(data)
-			    {  
-			    	$('#f_sub_category').html('<option value="">Sub Category</option>');
-			    	data.forEach(function(sub_category) {
-			            $('#f_sub_category').append("<option value='"+sub_category['id']+"'>"+sub_category['name']+"</option>");
-					});
-					console.log(data);
-			    },
-			    failure: function(errMsg) {
-			        alert(errMsg);
-			    }
-			});
-			$('#f_sub_category').val('');
-			// getItem('1');
-		}else{
-			$("#f_sub_category").hide();
-			$('#f_sub_category').val('');
-			// getItem('1');
-		}
+		$('#f_sub_category').val('');
+		$('#filterForm').submit();
 	});
+	$("#f_sub_category").on('change',function(){
+		$('#filterForm').submit();
+	});
+
+	$('#search_name').bind("enterKey",function(e){
+   		$('#filterForm').submit();
+	});
+	$('#price').bind("enterKey",function(e){
+   		$('#filterForm').submit();
+	});
+	$('#search_name,#price').keyup(function(e){
+	    if(e.keyCode == 13)
+	    {
+	        $(this).trigger("enterKey");
+	    }
+	})
+	$("#limit").on('change',function(){
+		$('#filterForm').submit();
+	});
+
+	$('.page-item').on('click',function(){
+		if($(this).hasClass('disabled')){ return false; }
+		var page = $(this).attr('p');
+		$('#page').val(page);
+		$('#filterForm').submit();
+	})
 
 	$('#tb_loader').delegate('.delete','click',function(){
 		var id = $(this).attr('item_id');

@@ -13,15 +13,26 @@
         	  $item = new Item();
               $get = $_GET;
         	  $parent_category = $item->getCategories($get);
-              if(isset($get['parentid'])){
+              if(!empty($get['category'])){
+                $get['parentid'] = $get['category'];
                 $sub_category = $item->getCategories($get);
                 $this->smarty->assign('sub_category',$sub_category);
 
               }
+              if(empty($get['limit'])){
+                $get['limit'] = 2;
+              }
+               if(empty($get['page'])){
+                $get['page'] = 1;
+              }
         	  $item_data = $item->getItems($get);
-              $count = sizeof($item_data['items']);
-              $this->smarty->assign('count',$count);
-              $this->smarty->assign('get',$_GET);
+              $count = $item_data['countItems'];
+              $total = array_values($count[0]);
+              $total = (int)$total[0];
+              $limit = $get['limit'];
+              $pageCount = ceil($total/$limit);
+              $this->smarty->assign('pageCount',$pageCount);
+              $this->smarty->assign('get',$get);
         	  $this->smarty->assign('parent_category',$parent_category);
         	  $this->smarty->assign('items',$item_data['items']);
         	  $this->smarty->display('item.tpl');

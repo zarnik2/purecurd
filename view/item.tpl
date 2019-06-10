@@ -30,32 +30,46 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 			<div class="col-md-12 ">
 				<button  type="button" class="btn btn-outline-success float-right" data-toggle="modal" data-target="#myModal">Create Items</button>
 			</div>
-			{if $count gt 0}
-			<div class="col-md-12 ">
-				<form class="form-inline">
-					<input type="text" class="form-control col-md-2 mr-2" placeholder="name" id="search_name" name="search_name">
-					<input type="text" class="form-control col-md-2 mr-2" placeholder="price" id="price">
+			<div class="col-md-12">
+
+				<form class="form-inline" id="filterForm" action="index.php">
+
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="name" id="search_name" name="name" value="{(!empty($get['name'])) ? $get['name'] : ''}">
+
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="price" id="price" name="price" value="{(!empty($get['price'])) ? $get['price'] : ''}">
+
 					<select class="form-control col-md-2 mr-2" id="f_parent_category" 
-					name="f_parent_category">
-				    	<option>All category</option>
+					name="category">
+				    	<option value="">All category</option>
 					    {foreach from=$parent_category item=pc}
 					       
-					    <option {(!empty($get['category']) && $get['category'] == $pc.id)? 'selected' : ''} value="{$pc.id}" >{$pc.name}</option>	
+					    <option {(!empty($get['category']) && $get['category'] == $pc.id) ? 'selected' : ''} value="{$pc.id}" >{$pc.name}</option>	
 						   
 						{/foreach}
 	  				</select>
-	  				{if isset($success) }
-	  				<select class="form-control col-md-2" id="f_sub_category" 
-					name="f_sub_category">
-						<option>Sub Category</option>
+	  				{if isset($sub_category) }
+	  				<select class="form-control col-md-2 mr-2" id="f_sub_category" 
+					name="sub_category">
+						<option value="">Sub Category</option>
 						 {foreach from=$sub_category item=sc}
-							<option value="{$sc.id}">{$sc.name}</option>
+							 <option {(!empty($get['sub_category']) && $get['sub_category'] == $sc.id)? 'selected' : ''} value="{$sc.id}" >{$sc.name}</option>
 						{/foreach}
 	  				</select>
 	  				{/if}
+	  				<select class="form-control col-md-1" id="limit" name="limit">
+	  					<option value="2" 
+	  					{(!empty($get['limit'])) && ($get['limit']== 2 )? 'selected' : ''}>2</option>
+	  					<option value="5"
+	  					{(!empty($get['limit'])) && ($get['limit']== 5) ? 'selected' : ''}>5</option>
+	  					<option value="10"
+	  					{(!empty($get['limit'])) && ($get['limit']== 10) ? 'selected' : ''}>10</option>
+	  					<option value="20"
+	  					{(!empty($get['limit'])) && ($get['limit']== 20 )? 'selected' : ''}>20</option>
+	  				</select>
+	  				<input type="hidden" name="page" id="page">
 				</form>
+
 			</div>
-			{/if}
 			<div class="col-md-12 mb-3">
 			</div>
 			<div class="col-md-12">
@@ -96,11 +110,30 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 							    </tbody>
 			  				</table>
 		  				{/if}
-		  				{if sizeof($items)==0}
-							<center>
-								<h3 class="text-info" style="font-size:16px;opacity:0.8"> No item recorded yet ...</h3>
-							</center>
-						{/if}
+						<nav aria-label="Page navigation example">
+						  <ul class="pagination">
+						  	{if $pageCount ne 1 && $pageCount ne 0}
+						    <li class="page-item {(!empty($get['page'])) && ($get['page']==1) ? 'disabled' : ''}"
+						    p="{$get['page']-1}">
+						      <a class="page-link" href="#" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						        <span class="sr-only">Previous</span>
+						      </a>
+						    </li>
+						    {/if}
+						    {for $i=1 to $pageCount}
+							    <li class="page-item {(!empty($get['page'])) && ($get['page']==$i) ? 'active' : ''}" p='{$i}'><a class="page-link" href="#">{$i}</a></li>
+							{/for}
+							{if $pageCount ne 1 && $pageCount ne 0}
+						    <li class="page-item {(!empty($get['page'])) && ($get['page']==$pageCount) ? 'disabled' : ''}"  p="{$get['page']+1}">
+						      <a class="page-link" href="#" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						        <span class="sr-only">Next</span>
+						      </a>
+						    </li>
+						    {/if}
+						  </ul>
+						</nav>
 	  				</div>
   			    </div>   
 			</div>
