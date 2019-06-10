@@ -1,5 +1,6 @@
 <?php
 	require_once("Base/Model.php");
+
 	class Item extends Model{
 
 	    public function __construct() 
@@ -105,48 +106,38 @@
 	    }
 	    public function saveData($n,$pc,$sc,$cp,$c,$dt,$d_amt,$bar){
 
-	    	 $sql = "INSERT INTO item (name,p_category,s_category,current_price,cost,d_type,d_amount,barcode) VALUES ('$n','$pc','$sc',$cp,$c,'$dt',$d_amt,$bar)";
+	    	 $sql = "INSERT INTO item (name,p_category,s_category,current_price,cost,d_type,d_amount,barcode) VALUES ('$n',$pc,$sc,$cp,$c,'$dt',$d_amt,$bar)";
 	    	 $stmt = $this->db->prepare($sql);
 	    	 $insertQry = $stmt->execute();
 	    	 return $insertQry;
 
 	    }
-
 	    public function updateData($id,$n,$pc,$sc,$cp,$c,$dt,$d_amt,$bar){
-	    	 $sql = "UPDATE item SET name='$n',p_category='$pc',s_category='$sc',current_price=$cp,cost=$c,d_type='$dt',d_amount=$d_amt,barcode=$bar WHERE id=$id";
+	    	 $sql = "UPDATE item SET name='$n',p_category=$pc,s_category=$sc,current_price=$cp,cost=$c,d_type='$dt',d_amount=$d_amt,barcode=$bar WHERE id=$id";
 	    	 $stmt = $this->db->prepare($sql);
 	    	 $updateQry = $stmt->execute();
 	    	 return $updateQry;
 	    }
-	    public function get_category($get){
-	    	$sql = " SELECT * FROM parent_category ";
+
+	    public function getCategories($get){
+	    	// $sql = " SELECT * FROM parent_category WHERE parent_id=".$id." ";
+	    	$sql = ' select * from parent_category ';
+	    	$where = "";
 
 	    	if(isset($get['parentid'])){
-	    		$where .= $this->checkWhere($where) . " parent_id=".$get['parentid']." "; 
+	    		$where .= $this->checkWhere($where). " parent_id='".$get['parentid']."' ";
 	    	}else{
-	    		$where .= $this->checkWhere($where) . " parent_id='0' "; 
+	    		$where .= $this->checkWhere($where). " parent_id='0' ";
 	    	}
-	        $stmt = $this->db->prepare($sql);
-	        $stmt->execute();
-	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        	return $row;
+	    	$sql = $sql.$where;
+	       	$res = $this->runQuery($sql);
+	    	return $res;
 	    }
-
-	     public function get_item(){
-	    	$sql = "SELECT * FROM item";
-	        $stmt = $this->db->prepare($sql);
-	        $stmt->execute();
-	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        	return $row;
-	    }
-
-	    public function get_sub_category($id){
-	    	$sql = "SELECT * FROM sub_category WHERE pid='".$id."'";
-	    	$stmt = $this->db->prepare($sql);
-	        $stmt->execute();
-	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        	return $row;
-	    }
+	    // public function get_sub_category($id){
+	    // 	$sql = "SELECT * FROM sub_category WHERE pid='".$id."'";
+	    // 	$res = $this->runQuery($sql);
+	    // 	return $res;
+	    // }
 
 	    public function destroy($id){
 	    	$sql = "DELETE FROM item WHERE id='".$id."'";
@@ -154,13 +145,60 @@
 	    	$stmt->execute();
 	    }
 
-	    public function get_item_by_id($id){
-	    	$sql = "SELECT * FROM item WHERE id='".$id."'";
+
+	    function runQuery($sql){
 	    	$stmt = $this->db->prepare($sql);
 	        $stmt->execute();
 	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
         	return $row;
 	    }
 
+	    public function getItems($get){
+	    	// $sql = ' select * from item ';
+	    	// $sql = " SELECT i.id,i.name,parent.name as p_category,sub.name as s_category,i.current_price,i.cost,i.d_type,i.d_amount,i.barcode FROM item i LEFT JOIN parent_category parent on parent.id = i.p_category LEFT JOIN parent_category sub on sub.id = i.s_category ";
+	    	$sql = ' SELECT parent.name as parent_category,sub.name as sub_category,item.* FROM item  
+					LEFT JOIN parent_category parent on parent.id = item.p_category
+					LEFT JOIN parent_category sub on sub.id = item.s_category ';
+	    	$totalSql = 'select count(*) from item';
+	    	$where = "";
+	    	// var_dump($get);
+	    	if(!empty($get['id'])){
+	    		$where .= $this->checkWhere($where). " item.id='".$get['id']."' ";
+	    	}
+
+	    	if(!empty($get['category'])){
+	    		$where .= $this->checkWhere($where). " item.p_category='".$get['category']."' ";
+	    	}
+
+	    	// sub
+	    	if(!empty($get['sub_category'])){
+	    	    $where .= $this->checkWhere($where). " item.s_category='".$get['sub_category']."' ";
+	    	}
+	    	// name
+	    	if(!empty($get['name'])){
+	    		 $where .= $this->checkWhere($where). " item.name LIKE '%".$get['name']."%' ";
+	    	}
+	    	// cost
+	    	if(!empty($get['price'])){
+	    		$where .= $this->checkWhere($where). " item.current_price LIKE '%".$get['price']."%' ";
+	    	}
+	    	// order by
+
+	    	// limit
+	    	$limitSql = "";
+	    	if(!empty($get['page'])){
+	    		$limit = $get['limit'];
+	    		$offset = ($get['page'] - 1) * $limit;  // 6
+	    		$limitSql = " limit ".$limit." offset ".$offset;
+	    	}
+
+	    	$sql = $sql.$where.$limitSql;
+	    	$countSql = $totalSql.$where;
+	    	// echo $sql;    // to return 2 query (total , normal)
+	    	$items =  $this->runQuery($sql);
+	    	$countItems = $this->runQuery($countSql);
+	    	$data = ['items' => $items,'countItems' => $countItems];
+	    	return $data;
+	    }	    
 	}
 ?>
