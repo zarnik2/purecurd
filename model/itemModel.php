@@ -148,6 +148,7 @@
 
 	    function runQuery($sql){
 	    	$stmt = $this->db->prepare($sql);
+	    	
 	        $stmt->execute();
 	        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
         	return $row;

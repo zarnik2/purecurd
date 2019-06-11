@@ -3,7 +3,7 @@
 src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="./public/js/item.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script src="./public/js/pagination.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <head>
 	<title>Simple POS</title>
@@ -110,7 +110,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 							    </tbody>
 			  				</table>
 		  				{/if}
-						<nav aria-label="Page navigation example">
+						<!-- <nav aria-label="Page navigation example">
 						  <ul class="pagination">
 						  	{if $pageCount ne 1 && $pageCount ne 0}
 						    <li class="page-item {(!empty($get['page'])) && ($get['page']==1) ? 'disabled' : ''}"
@@ -133,7 +133,11 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 						    </li>
 						    {/if}
 						  </ul>
-						</nav>
+						</nav> -->
+						 <input type="hidden" value="{$total}" id="total">
+						 <input type="hidden" value="{$limit}" id="limit">
+						 <input type="hidden" value="{$currentPage}" id="currentPage">
+						 <div id="pageLimit"></div>
 	  				</div>
   			    </div>   
 			</div>
@@ -197,7 +201,6 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script
 						  </div>
 					
 		      </div>
-
 		      <!-- Modal footer -->
 		      <div class="modal-footer">
 		        <button type="submit" class="btn btn-success mr-auto">Save</button>

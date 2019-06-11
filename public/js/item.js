@@ -61,6 +61,7 @@ $(document).ready(function(){
 	$('#search_name').bind("enterKey",function(e){
    		$('#filterForm').submit();
 	});
+
 	$('#price').bind("enterKey",function(e){
    		$('#filterForm').submit();
 	});
@@ -69,12 +70,12 @@ $(document).ready(function(){
 	    {
 	        $(this).trigger("enterKey");
 	    }
-	})
+	});
 	$("#limit").on('change',function(){
 		$('#filterForm').submit();
 	});
 
-	$('.page-item').on('click',function(){
+	$('#pageLimit').delegate('.page-item','click',function(){
 		if($(this).hasClass('disabled')){ return false; }
 		var page = $(this).attr('p');
 		$('#page').val(page);
@@ -100,5 +101,23 @@ $(document).ready(function(){
 			    }
 			});
 		}
-	})
+	});
+
+	var total = $('#total').val();
+	var limit = $('#limit').val();
+	var currentPage = $('#currentPage').val();
+
+	if(total!=0){
+		makePagi({
+			total : total, 
+			limit : limit, 
+			currentPage : currentPage, 
+			linkBeforeCurrentPage : 4,
+			container : 'pageLimit',
+			firstLink : 'First',
+			lastLink : 'Last',
+			nextLink : '&raquo;',
+			prevLink : '&laquo;'
+		});
+	}
 });

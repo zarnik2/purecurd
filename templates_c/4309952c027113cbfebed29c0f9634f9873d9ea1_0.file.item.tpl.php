@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-10 12:27:16
+/* Smarty version 3.1.33, created on 2019-06-11 04:37:46
   from 'C:\xampp\htdocs\POS\view\item.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cfe3084cfa529_51867868',
+  'unifunc' => 'content_5cff13fa995e82_31432712',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4309952c027113cbfebed29c0f9634f9873d9ea1' => 
     array (
       0 => 'C:\\xampp\\htdocs\\POS\\view\\item.tpl',
-      1 => 1560162430,
+      1 => 1560220664,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cfe3084cfa529_51867868 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cff13fa995e82_31432712 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <?php echo '<script'; ?>
  type="text/javascript" 
@@ -33,7 +33,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"><?php ec
  src="./public/js/item.js"><?php echo '</script'; ?>
 >
 <?php echo '<script'; ?>
- src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"><?php echo '</script'; ?>
+ src="./public/js/pagination.js"><?php echo '</script'; ?>
 >
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <head>
@@ -65,14 +65,19 @@ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"><?php ec
 			<div class="col-md-12 ">
 				<button  type="button" class="btn btn-outline-success float-right" data-toggle="modal" data-target="#myModal">Create Items</button>
 			</div>
-			<?php if ($_smarty_tpl->tpl_vars['count']->value > 0) {?>
-			<div class="col-md-12 ">
-				<form class="form-inline">
-					<input type="text" class="form-control col-md-2 mr-2" placeholder="name" id="search_name" name="search_name">
-					<input type="text" class="form-control col-md-2 mr-2" placeholder="price" id="price">
+			<div class="col-md-12">
+
+				<form class="form-inline" id="filterForm" action="index.php">
+
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="name" id="search_name" name="name" value="<?php echo !empty($_smarty_tpl->tpl_vars['get']->value['name']) ? $_smarty_tpl->tpl_vars['get']->value['name'] : '';?>
+">
+
+					<input type="text" class="form-control col-md-2 mr-2" placeholder="price" id="price" name="price" value="<?php echo !empty($_smarty_tpl->tpl_vars['get']->value['price']) ? $_smarty_tpl->tpl_vars['get']->value['price'] : '';?>
+">
+
 					<select class="form-control col-md-2 mr-2" id="f_parent_category" 
-					name="f_parent_category">
-				    	<option>All category</option>
+					name="category">
+				    	<option value="">All category</option>
 					    <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['parent_category']->value, 'pc');
 if ($_from !== null) {
@@ -89,17 +94,18 @@ foreach ($_from as $_smarty_tpl->tpl_vars['pc']->value) {
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 	  				</select>
-	  				<?php if (isset($_smarty_tpl->tpl_vars['success']->value)) {?>
-	  				<select class="form-control col-md-2" id="f_sub_category" 
-					name="f_sub_category">
-						<option>Sub Category</option>
+	  				<?php if (isset($_smarty_tpl->tpl_vars['sub_category']->value)) {?>
+	  				<select class="form-control col-md-2 mr-2" id="f_sub_category" 
+					name="sub_category">
+						<option value="">Sub Category</option>
 						 <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['sub_category']->value, 'sc');
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['sc']->value) {
 ?>
-							<option value="<?php echo $_smarty_tpl->tpl_vars['sc']->value['id'];?>
-"><?php echo $_smarty_tpl->tpl_vars['sc']->value['name'];?>
+							 <option <?php echo !empty($_smarty_tpl->tpl_vars['get']->value['sub_category']) && $_smarty_tpl->tpl_vars['get']->value['sub_category'] == $_smarty_tpl->tpl_vars['sc']->value['id'] ? 'selected' : '';?>
+ value="<?php echo $_smarty_tpl->tpl_vars['sc']->value['id'];?>
+" ><?php echo $_smarty_tpl->tpl_vars['sc']->value['name'];?>
 </option>
 						<?php
 }
@@ -107,9 +113,24 @@ foreach ($_from as $_smarty_tpl->tpl_vars['sc']->value) {
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 	  				</select>
 	  				<?php }?>
+	  				<select class="form-control col-md-1" id="limit" name="limit">
+	  					<option value="2" 
+	  					<?php echo (!empty($_smarty_tpl->tpl_vars['get']->value['limit'])) && $_smarty_tpl->tpl_vars['get']->value['limit'] == 2 ? 'selected' : '';?>
+>2</option>
+	  					<option value="5"
+	  					<?php echo (!empty($_smarty_tpl->tpl_vars['get']->value['limit'])) && $_smarty_tpl->tpl_vars['get']->value['limit'] == 5 ? 'selected' : '';?>
+>5</option>
+	  					<option value="10"
+	  					<?php echo (!empty($_smarty_tpl->tpl_vars['get']->value['limit'])) && $_smarty_tpl->tpl_vars['get']->value['limit'] == 10 ? 'selected' : '';?>
+>10</option>
+	  					<option value="20"
+	  					<?php echo (!empty($_smarty_tpl->tpl_vars['get']->value['limit'])) && $_smarty_tpl->tpl_vars['get']->value['limit'] == 20 ? 'selected' : '';?>
+>20</option>
+	  				</select>
+	  				<input type="hidden" name="page" id="page">
 				</form>
+
 			</div>
-			<?php }?>
 			<div class="col-md-12 mb-3">
 			</div>
 			<div class="col-md-12">
@@ -165,11 +186,50 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 							    </tbody>
 			  				</table>
 		  				<?php }?>
-		  				<?php if (sizeof($_smarty_tpl->tpl_vars['items']->value) == 0) {?>
-							<center>
-								<h3 class="text-info" style="font-size:16px;opacity:0.8"> No item recorded yet ...</h3>
-							</center>
-						<?php }?>
+						<!-- <nav aria-label="Page navigation example">
+						  <ul class="pagination">
+						  	<?php if ($_smarty_tpl->tpl_vars['pageCount']->value != 1 && $_smarty_tpl->tpl_vars['pageCount']->value != 0) {?>
+						    <li class="page-item <?php echo (!empty($_smarty_tpl->tpl_vars['get']->value['page'])) && $_smarty_tpl->tpl_vars['get']->value['page'] == 1 ? 'disabled' : '';?>
+"
+						    p="<?php echo $_smarty_tpl->tpl_vars['get']->value['page']-1;?>
+">
+						      <a class="page-link" href="#" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						        <span class="sr-only">Previous</span>
+						      </a>
+						    </li>
+						    <?php }?>
+						    <?php
+$_smarty_tpl->tpl_vars['i'] = new Smarty_Variable(null, $_smarty_tpl->isRenderingCache);$_smarty_tpl->tpl_vars['i']->step = 1;$_smarty_tpl->tpl_vars['i']->total = (int) ceil(($_smarty_tpl->tpl_vars['i']->step > 0 ? $_smarty_tpl->tpl_vars['pageCount']->value+1 - (1) : 1-($_smarty_tpl->tpl_vars['pageCount']->value)+1)/abs($_smarty_tpl->tpl_vars['i']->step));
+if ($_smarty_tpl->tpl_vars['i']->total > 0) {
+for ($_smarty_tpl->tpl_vars['i']->value = 1, $_smarty_tpl->tpl_vars['i']->iteration = 1;$_smarty_tpl->tpl_vars['i']->iteration <= $_smarty_tpl->tpl_vars['i']->total;$_smarty_tpl->tpl_vars['i']->value += $_smarty_tpl->tpl_vars['i']->step, $_smarty_tpl->tpl_vars['i']->iteration++) {
+$_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 1;$_smarty_tpl->tpl_vars['i']->last = $_smarty_tpl->tpl_vars['i']->iteration === $_smarty_tpl->tpl_vars['i']->total;?>
+							    <li class="page-item <?php echo (!empty($_smarty_tpl->tpl_vars['get']->value['page'])) && $_smarty_tpl->tpl_vars['get']->value['page'] == $_smarty_tpl->tpl_vars['i']->value ? 'active' : '';?>
+" p='<?php echo $_smarty_tpl->tpl_vars['i']->value;?>
+'><a class="page-link" href="#"><?php echo $_smarty_tpl->tpl_vars['i']->value;?>
+</a></li>
+							<?php }
+}
+?>
+							<?php if ($_smarty_tpl->tpl_vars['pageCount']->value != 1 && $_smarty_tpl->tpl_vars['pageCount']->value != 0) {?>
+						    <li class="page-item <?php echo (!empty($_smarty_tpl->tpl_vars['get']->value['page'])) && $_smarty_tpl->tpl_vars['get']->value['page'] == $_smarty_tpl->tpl_vars['pageCount']->value ? 'disabled' : '';?>
+"  p="<?php echo $_smarty_tpl->tpl_vars['get']->value['page']+1;?>
+">
+						      <a class="page-link" href="#" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						        <span class="sr-only">Next</span>
+						      </a>
+						    </li>
+						    <?php }?>
+						  </ul>
+						</nav> -->
+						 <input type="hidden" value="<?php echo $_smarty_tpl->tpl_vars['total']->value;?>
+" id="total">
+						 <input type="hidden" value="<?php echo $_smarty_tpl->tpl_vars['limit']->value;?>
+" id="limit">
+						 <input type="hidden" value="<?php echo $_smarty_tpl->tpl_vars['currentPage']->value;?>
+" id="currentPage">
+						 <div id="pageLimit"></div>
 	  				</div>
   			    </div>   
 			</div>
@@ -242,7 +302,6 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 						  </div>
 					
 		      </div>
-
 		      <!-- Modal footer -->
 		      <div class="modal-footer">
 		        <button type="submit" class="btn btn-success mr-auto">Save</button>

@@ -32,6 +32,9 @@
               $limit = $get['limit'];
               $pageCount = ceil($total/$limit);
               $this->smarty->assign('pageCount',$pageCount);
+              $this->smarty->assign('total',$total);
+              $this->smarty->assign('limit',$limit);
+              $this->smarty->assign('currentPage',$get['page']);
               $this->smarty->assign('get',$get);
         	  $this->smarty->assign('parent_category',$parent_category);
         	  $this->smarty->assign('items',$item_data['items']);
