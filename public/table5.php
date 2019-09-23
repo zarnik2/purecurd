@@ -102,7 +102,6 @@
 				var $this_name = $(this).attr("id");
 				var $html ='';
 				$html += '<div id="'+$this_name+'headerTableDiv"></div>';
-				// var $parent_id = $(this).parent().attr("id");
 				$($html).insertBefore($(this).parent());
 				var $th_height = $(this).children("thead").children("tr").children("th").attr('height');
 				$("#"+$this_name+"headerTableDiv").css({"margin":"0","padding":"0","height":$th_height+"px","background":"#ccc","position":"relative","overflow-y":"scroll"});
@@ -113,13 +112,9 @@
 				$("#"+$this_name+"headerTable").children("tbody").children("tr").children("td").css("overflow","hidden");
 				var $thead = $(this).children("thead").clone();
 				$(this).children("thead").children("tr").children("th").css({'height':'auto'});
-				// $("#fixtable thead tr th").css({'height':'auto'});
 				$(this).children("thead").children("tr").children("th").text("");
-				// $("#fixtable thead tr th").text('');
 				$(this).children("thead").css('visibility','hidden');
-				// $("#fixtable thead").css('visibility','hidden');
 				$(this).css("margin-top","-2px");
-				// $('#fixtable').css('margin-top','-2px');
 				$("#"+$this_name+"headerTable").append($thead);
 			}
 		});
